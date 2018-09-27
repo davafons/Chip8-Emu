@@ -1,0 +1,22 @@
+# Project files
+*.exe
+*.obj
+*.o
+*.lib
+
+# Project folders
+bin/
+obj/
+include/
+lib/
+
+# Vim files
+*.swp
+tags
+.clang_complete
+
+# Chip8 files
+*.ch8
+*.rom
+
+
