@@ -1,10 +1,8 @@
-#include "input.h"
-#include "memory.h"
+#include "chip8Facade.h"
 
 int main() {
-  Memory mem_;
-  bool q;
-  Input in_(mem_, q);
+  Chip8Facade c8;
+
 
   return 0;
 }
