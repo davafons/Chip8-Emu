@@ -1,8 +1,8 @@
 #pragma once
 
 #include <array>
-#include <string>
 #include <cstdint>
+#include <string>
 
 class Memory {
 public:

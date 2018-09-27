@@ -1,12 +1,16 @@
 #include "chip8Facade.h"
+#include "input/inputSDL.h"
 #include "memory.h"
 
 #include <iostream>
 
-Chip8Facade::Chip8Facade(const std::string &path) {
+Chip8Facade::Chip8Facade(const std::string &path)
+    : input_(new InputSDL(memory_, quit_)) {
   if (!path.empty())
     loadROM(path);
 }
+
+Chip8Facade::~Chip8Facade() { delete input_; }
 
 void Chip8Facade::loadROM(const std::string &path) {
   try {
@@ -29,7 +33,7 @@ void Chip8Facade::loadROM(const std::string &path) {
 void Chip8Facade::execute() {
   while (!quit_) {
     // Handle input
-    input_.pollEvents();
+    input_->pollEvents();
 
     if (loaded_) {
       // Emulate one cpu cycle
