@@ -1,13 +1,15 @@
 #pragma once
 
-#include <SDL2/SDL.h>
+#include <array>
 
 #include "input.h"
-#include "memory.h"
+
+class Memory;
 
 class InputSDL : public Input {
 public:
-  InputSDL(Memory &memory, bool &quit) : memory_(memory), quit_(quit) {}
+  InputSDL(Memory &memory, bool &quit);
+
   void pollEvents() override;
 
 private:

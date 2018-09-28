@@ -1,4 +1,9 @@
+#include <SDL2/SDL.h>
+
 #include "inputSDL.h"
+#include "memory/memory.h"
+
+InputSDL::InputSDL(Memory &memory, bool &quit) : memory_(memory), quit_(quit) {}
 
 void InputSDL::pollEvents() {
   SDL_Event e;

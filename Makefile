@@ -2,7 +2,7 @@
 CC = gcc
 CXX = g++
 
-# Commands 
+# Commands
 MKDIR = mkdir
 RM = rm
 
@@ -19,18 +19,20 @@ SRCDIR = src
 OBJDIR = obj
 BINDIR = bin
 
+VPATH = $(SRCDIR)/ $(shell find $(SRCDIR)/* -type d)
+
 # Target name
 TARGET := $(BINDIR)/chip8.out
 
 # Source and object files
-c_files := $(wildcard $(SRCDIR)/*.c)
-cxx_files := $(wildcard $(SRCDIR)/*.cpp)
+c_files := $(shell find $(SRCDIR)/ -type f -name '*.c')
+cxx_files := $(shell find $(SRCDIR)/ -type f -name '*.cpp')
 src := $(c_files) $(cxx_files)
 obj := $(addprefix $(OBJDIR)/, $(notdir $(addsuffix .o, $(basename $(src)))))
 
 
 # Include and Library paths
-INCLUDE := -I$(CURDIR)/include/
+INCLUDE := -I$(CURDIR)/include/ -I$(CURDIR)/$(SRCDIR)
 LIB := -L$(CURDIR)/lib/
 
 # Compiler and Linker flags
@@ -52,11 +54,11 @@ $(obj) : | directories
 
 
 # Rule for .c files compilation
-$(OBJDIR)/%.o : $(SRCDIR)/%.c
+$(OBJDIR)/%.o : %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Rule for .cpp files compilation
-$(OBJDIR)/%.o : $(SRCDIR)/%.cpp
+$(OBJDIR)/%.o : %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 

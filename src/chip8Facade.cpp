@@ -1,11 +1,11 @@
 #include "chip8Facade.h"
+#include "display/displaySDL.h"
 #include "input/inputSDL.h"
-#include "memory.h"
 
 #include <iostream>
 
 Chip8Facade::Chip8Facade(const std::string &path)
-    : input_(new InputSDL(memory_, quit_)) {
+    : input_(new InputSDL(memory_, quit_)), display_(new DisplaySDL(memory_)) {
   if (!path.empty())
     loadROM(path);
 }
@@ -41,7 +41,7 @@ void Chip8Facade::execute() {
 
       /* // Update screen */
       /* if (cpu_.mustDraw()) */
-      /*   display_.render(); */
+      /*   display_->render(); */
     }
   }
 }

@@ -2,9 +2,10 @@
 
 #include <string>
 
-#include "memory.h"
+#include "memory/memory.h"
 
 class Input;
+class Display;
 
 // INLINE
 
@@ -24,4 +25,5 @@ private:
 
   Memory memory_;
   Input *input_;
+  Display *display_;
 };
