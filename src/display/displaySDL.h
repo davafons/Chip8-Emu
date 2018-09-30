@@ -9,6 +9,8 @@ class Memory;
 class DisplaySDL : public Display {
 public:
   explicit DisplaySDL(Memory &memory);
+  DisplaySDL(const DisplaySDL &) = delete;
+  DisplaySDL &operator=(const DisplaySDL &) = delete;
   ~DisplaySDL();
 
   void render() override;

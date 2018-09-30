@@ -26,6 +26,11 @@ DisplaySDL::DisplaySDL(Memory &memory)
   SDL_SetRenderDrawColor(renderer_, 0x33, 0x33, 0x33, 0xFF);
   SDL_RenderClear(renderer_);
   SDL_RenderPresent(renderer_);
+
+  // Colors for active and inactive pixels
+  bg_.r = bg_.g = bg_.b = 0x00;
+  bg_.a = 0xFF;
+  fg_.r = fg_.g = fg_.b = fg_.a = 0xFF;
 }
 
 DisplaySDL::~DisplaySDL() {
