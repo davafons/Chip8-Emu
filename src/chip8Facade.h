@@ -21,7 +21,6 @@ public:
 
 private:
   bool quit_{false};
-  bool loaded_{false};
 
   Memory memory_;
   Cpu cpu_{memory_};

@@ -20,7 +20,7 @@ void Chip8Facade::execute() {
     // Handle input
     input_->pollEvents();
 
-    if (loaded_) {
+    if (memory_.romLoaded()) {
       // Emulate one cpu cycle
       cpu_.cycle();
 
