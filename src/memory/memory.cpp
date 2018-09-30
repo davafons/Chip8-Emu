@@ -1,14 +1,9 @@
+#include <fstream>
+#include <iostream>
+
 #include "memory.h"
 
-#include <fstream>
-
 Memory::Memory() { reset(); }
-
-void Memory::loadRom(const std::string &path) {
-  std::ifstream rom = openFileWithExceptions(path);
-  copyRomtoMemory(rom);
-  rom.close();
-}
 
 void Memory::reset() {
   // Wipe memory
@@ -17,15 +12,36 @@ void Memory::reset() {
   std::fill(keys_.begin(), keys_.end(), 0);
 
   // Load hex sprites
-  std::copy(hex_sprites.begin(), hex_sprites.end(), ram_.begin());
+  std::copy(hex_sprites.cbegin(), hex_sprites.cend(), ram_.begin());
 }
 
-std::ifstream Memory::openFileWithExceptions(const std::string &path) const {
+void Memory::loadRom(const std::string &rom_path) {
+  try {
+    std::ifstream rom = openFileWithExceptions(rom_path);
+    copyRomtoMemory(rom);
+    rom.close();
+    loaded_ = true;
+
+  } catch (const std::exception &e) {
+    std::cout << "Description: " << e.what() << std::endl;
+  }
+}
+
+std::ifstream
+Memory::openFileWithExceptions(const std::string &rom_path) const {
+  checkRomExtension(rom_path);
   std::ifstream file;
   file.exceptions(std::ifstream::failbit);
-  file.open(path,
+  file.open(rom_path,
             std::ifstream::in | std::ifstream::binary | std::ifstream::ate);
   return file;
+}
+
+void Memory::checkRomExtension(const std::string &rom_path) const {
+  std::string extension = rom_path.substr(rom_path.find_last_of(".") + 1);
+  if (extension != "ch8" && extension != "rom")
+    throw std::runtime_error(
+        "Chip-8 ROMs must have a valid .ch8  or .rom extension!");
 }
 
 void Memory::copyRomtoMemory(std::ifstream &file) {
