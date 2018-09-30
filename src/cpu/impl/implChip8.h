@@ -4,8 +4,8 @@
 #include <functional>
 #include <unordered_map>
 
-#include "impl.h"
 #include "cpu/opcode.h"
+#include "impl.h"
 
 class Memory;
 
@@ -60,11 +60,10 @@ private:
   void LD_reg_ram(); // Fx65 - LD Vx, [I]
 
 private:
-  Memory &memory_;
+  Memory &mem_;
 
   Opcode opcode_;
 
-  std::array<uint8_t, 4096> ram_;
   std::array<uint8_t, 16> V_; // General-purpose registers
 
   uint16_t PC_; // Currently executing address
@@ -72,10 +71,6 @@ private:
 
   std::array<uint16_t, 16> stack_;
   uint8_t SP_; // Point to the topmost level of the stack
-
-  std::array<uint8_t, 64 * 32> display_;
-
-  std::array<uint8_t, 16> key_; // 16-key hexadecimal keypad
 
   uint8_t DT_; // Delay timer register
   uint8_t ST_; // Sound timer register
@@ -85,6 +80,5 @@ private:
 
   //// Function pointer table
   using InstructionPtr_t = std::function<void(ImplChip8 &)>;
-  static const std::unordered_map<uint16_t, InstructionPtr_t>
-      table_;
+  static const std::unordered_map<uint16_t, InstructionPtr_t> table_;
 };

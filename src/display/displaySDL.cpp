@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "displaySDL.h"
 #include "memory/memory.h"
 
