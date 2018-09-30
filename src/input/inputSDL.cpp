@@ -21,11 +21,9 @@ void InputSDL::pollEvents() {
       if (e.key.keysym.sym == SDLK_ESCAPE)
         exit();
 
-      if (e.key.keysym.sym == SDLK_u) {
-        for (size_t i = 0; i < keymap_.size(); ++i) {
-          if (e.key.keysym.sym == keymap_[i])
-            keyDown(i);
-        }
+      for (size_t i = 0; i < keymap_.size(); ++i) {
+        if (e.key.keysym.sym == keymap_[i])
+          keyDown(i);
       }
 
     case SDL_KEYUP:

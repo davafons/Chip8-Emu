@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstddef>
+
 class Input {
 public:
   virtual ~Input() = default;
