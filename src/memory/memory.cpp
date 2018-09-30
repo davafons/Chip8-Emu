@@ -13,14 +13,18 @@ void Memory::reset() {
 
   // Load hex sprites
   std::copy(hex_sprites.cbegin(), hex_sprites.cend(), ram_.begin());
+
+  loaded_ = false;
 }
 
 void Memory::loadRom(const std::string &rom_path) {
   try {
+    std::cerr << "-- Loading Rom in " << rom_path << "..." << std::endl;
     std::ifstream rom = openFileWithExceptions(rom_path);
     copyRomtoMemory(rom);
     rom.close();
     loaded_ = true;
+    std::cerr << "-- Rom loaded!" << std::endl;
 
   } catch (const std::exception &e) {
     std::cout << "Description: " << e.what() << std::endl;
