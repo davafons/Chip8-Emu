@@ -3,11 +3,12 @@
 #include "implChip8.h"
 #include "memory/memory.h"
 
-#define DEBUG(x) std::cerr << x << std::endl
+#define DEBUG(x) //std::cerr << x << std::endl
 
 ImplChip8::ImplChip8(Memory &memory) : mem_(memory) { reset(); }
 
 void ImplChip8::fetch() {
+  draw_ = false;
   opcode_ = mem_.readFromRam(PC_) << 8 | mem_.readFromRam(PC_ + 1);
   PC_ += 2;
 }
@@ -43,6 +44,17 @@ void ImplChip8::execute() {
   }
 }
 
+void ImplChip8::updateTimers() {
+  if (DT_ > 0x00)
+    --DT_;
+
+  if (ST_ > 0x00) {
+    if (ST_ == 1)
+      sound_ = true;
+    --ST_;
+  }
+}
+
 void ImplChip8::reset() {
   std::cerr << " -> Resetting ImplChip8 state..." << std::endl;
 
@@ -59,17 +71,6 @@ void ImplChip8::reset() {
 
   // Reset memory
   mem_.reset();
-}
-
-void ImplChip8::updateTimers() {
-  if (DT_ > 0x00)
-    --DT_;
-
-  if (ST_ > 0x00) {
-    if (ST_ == 1)
-      sound_ = true;
-    --ST_;
-  }
 }
 
 /////////////////////////////////////////////////
@@ -231,7 +232,7 @@ void ImplChip8::DRW() {
 
   V_[0xF] = 0;
   for (uint8_t yline = 0; yline < height; ++yline) {
-    uint8_t pixel = mem_.readFromDisplay(I_ + yline);
+    uint8_t pixel = mem_.readFromRam(I_ + yline);
     for (uint8_t xline = 0; xline < 8; ++xline) {
       if ((pixel & (0x80 >> xline)) != 0) {
         if (mem_.readFromDisplay((x + xline + ((y + yline) * 64))) == 1)

@@ -8,6 +8,7 @@ Cpu::~Cpu() { delete impl_; }
 void Cpu::cycle() {
   impl_->fetch();
   impl_->execute();
+  impl_->updateTimers();
 }
 
 bool Cpu::mustDraw() const { return impl_->mustDraw(); }

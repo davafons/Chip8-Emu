@@ -15,13 +15,13 @@ public:
 
   void fetch() override;
   void execute() override;
+  void updateTimers() override;
   void reset() override;
 
   bool mustDraw() const override { return draw_; }
   bool mustSound() const override { return sound_; }
 
 private:
-  void updateTimers();
 
   //// Chip8 Instruction Set
   void CLS();        // 00E0 - CLS

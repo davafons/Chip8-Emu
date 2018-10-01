@@ -6,6 +6,7 @@ public:
 
   virtual void fetch() = 0;
   virtual void execute() = 0;
+  virtual void updateTimers() = 0;
   virtual void reset() = 0;
 
   virtual bool mustDraw() const = 0;

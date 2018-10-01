@@ -25,8 +25,9 @@ void Chip8Facade::execute() {
       cpu_.cycle();
 
       // Update screen
-      if (cpu_.mustDraw())
+      if (cpu_.mustDraw()) {
         display_->render();
+      }
     }
   }
 }
