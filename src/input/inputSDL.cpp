@@ -25,12 +25,14 @@ void InputSDL::pollEvents() {
         if (e.key.keysym.sym == keymap_[i])
           keyDown(i);
       }
+      break;
 
     case SDL_KEYUP:
       for (size_t i = 0; i < keymap_.size(); ++i) {
         if (e.key.keysym.sym == keymap_[i])
           keyUp(i);
       }
+      break;
     }
   }
 }
