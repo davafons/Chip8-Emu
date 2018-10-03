@@ -7,7 +7,7 @@ public:
   virtual ~Input() = default;
   virtual void pollEvents() = 0;
 
-protected:
+private:  
   virtual void exit() = 0;
 
   virtual void keyDown(size_t pos) = 0;

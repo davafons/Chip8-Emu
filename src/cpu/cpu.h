@@ -18,5 +18,5 @@ public:
 
 private:
   class ImplChip8;
-  ImplChip8 * impl_;
+  std::unique_ptr<ImplChip8> impl_;
 };

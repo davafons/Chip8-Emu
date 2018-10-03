@@ -3,12 +3,32 @@
 #include "implChip8.h"
 #include "memory/memory.h"
 
-#define DEBUG(x) //std::cerr << x << std::endl
+#define DEBUG(x) // std::cerr << x << std::endl
 
 Cpu::ImplChip8::ImplChip8(Memory &memory) : mem_(memory) { reset(); }
 
+void Cpu::ImplChip8::reset() {
+  std::cout << "-- Resetting Cpu state..." << std::endl;
+
+  // Clear registers
+  PC_ = 0x0200;
+  I_ = 0x0000;
+  SP_ = 0x00;
+  DT_ = 0x00;
+  ST_ = 0x00;
+
+  // Clear flags
+  draw_ = true;
+  sound_ = false;
+
+  std::cout << "-- Cpu resetted" << std::endl;
+
+  // Reset memory
+  if (mem_.romLoaded())
+    mem_.reset();
+}
+
 void Cpu::ImplChip8::fetch() {
-  draw_ = false;
   opcode_ = mem_.readFromRam(PC_) << 8 | mem_.readFromRam(PC_ + 1);
   PC_ += 2;
 }
@@ -50,33 +70,16 @@ void Cpu::ImplChip8::updateTimers() {
     --DT_;
 
   if (ST_ > 0x00) {
-    if (ST_ == 1)
+    if (ST_ == 0x01)
       sound_ = true;
     --ST_;
   }
 }
 
-void Cpu::ImplChip8::reset() {
-  std::cerr << " -> Resetting Cpu::ImplChip8 state..." << std::endl;
-
-  // Clear registers
-  PC_ = 0x0200;
-  I_ = 0x0000;
-  SP_ = 0x00;
-  DT_ = 0x00;
-  ST_ = 0x00;
-
-  // Clear flags
-  draw_ = true;
+void Cpu::ImplChip8::resetFlags() {
+  draw_ = false;
   sound_ = false;
-
-  // Reset memory
-  if(mem_.romLoaded())
-    mem_.reset();
 }
-
-bool Cpu::ImplChip8::mustDraw() const { return draw_; }
-bool Cpu::ImplChip8::mustSound() const { return sound_; }
 
 /////////////////////////////////////////////////
 //////// Standard Chip-8 Instruction set ////////
@@ -337,21 +340,38 @@ void Cpu::ImplChip8::LD_reg_ram() {
 ///////// Function pointer table /////////
 const std::unordered_map<uint16_t, Cpu::ImplChip8::InstructionPtr_t>
     Cpu::ImplChip8::table_ = {
-        {0x00E0, &Cpu::ImplChip8::CLS},        {0x8003, &Cpu::ImplChip8::XOR},
-        {0xE0A1, &Cpu::ImplChip8::SKNP},       {0x00EE, &Cpu::ImplChip8::RET},
-        {0x8004, &Cpu::ImplChip8::ADD_reg},    {0xF007, &Cpu::ImplChip8::LD_reg_dt},
-        {0x1000, &Cpu::ImplChip8::JP_addr},    {0x8005, &Cpu::ImplChip8::SUB},
-        {0xF00A, &Cpu::ImplChip8::LD_key},     {0x2000, &Cpu::ImplChip8::CALL},
-        {0x8006, &Cpu::ImplChip8::SHR},        {0xF015, &Cpu::ImplChip8::LD_dt_reg},
-        {0x3000, &Cpu::ImplChip8::SE_byte},    {0x8007, &Cpu::ImplChip8::SUBN},
-        {0xF018, &Cpu::ImplChip8::LD_st_reg},  {0x4000, &Cpu::ImplChip8::SNE_byte},
-        {0x800E, &Cpu::ImplChip8::SHL},        {0xF01E, &Cpu::ImplChip8::ADD_I_reg},
-        {0x5000, &Cpu::ImplChip8::SE_reg},     {0x9000, &Cpu::ImplChip8::SNE_reg},
-        {0xF029, &Cpu::ImplChip8::LD_sprite},  {0x6000, &Cpu::ImplChip8::LD_byte},
-        {0xA000, &Cpu::ImplChip8::LD_I},       {0xF033, &Cpu::ImplChip8::LD_B_reg},
-        {0x7000, &Cpu::ImplChip8::ADD_byte},   {0xB000, &Cpu::ImplChip8::JP_reg},
-        {0xF055, &Cpu::ImplChip8::LD_ram_reg}, {0x8000, &Cpu::ImplChip8::LD_reg},
-        {0xC000, &Cpu::ImplChip8::RND},        {0xF065, &Cpu::ImplChip8::LD_reg_ram},
-        {0x8001, &Cpu::ImplChip8::OR},         {0xD000, &Cpu::ImplChip8::DRW},
-        {0x8002, &Cpu::ImplChip8::AND},        {0xE09E, &Cpu::ImplChip8::SKP},
+        {0x00E0, &Cpu::ImplChip8::CLS},
+        {0x8003, &Cpu::ImplChip8::XOR},
+        {0xE0A1, &Cpu::ImplChip8::SKNP},
+        {0x00EE, &Cpu::ImplChip8::RET},
+        {0x8004, &Cpu::ImplChip8::ADD_reg},
+        {0xF007, &Cpu::ImplChip8::LD_reg_dt},
+        {0x1000, &Cpu::ImplChip8::JP_addr},
+        {0x8005, &Cpu::ImplChip8::SUB},
+        {0xF00A, &Cpu::ImplChip8::LD_key},
+        {0x2000, &Cpu::ImplChip8::CALL},
+        {0x8006, &Cpu::ImplChip8::SHR},
+        {0xF015, &Cpu::ImplChip8::LD_dt_reg},
+        {0x3000, &Cpu::ImplChip8::SE_byte},
+        {0x8007, &Cpu::ImplChip8::SUBN},
+        {0xF018, &Cpu::ImplChip8::LD_st_reg},
+        {0x4000, &Cpu::ImplChip8::SNE_byte},
+        {0x800E, &Cpu::ImplChip8::SHL},
+        {0xF01E, &Cpu::ImplChip8::ADD_I_reg},
+        {0x5000, &Cpu::ImplChip8::SE_reg},
+        {0x9000, &Cpu::ImplChip8::SNE_reg},
+        {0xF029, &Cpu::ImplChip8::LD_sprite},
+        {0x6000, &Cpu::ImplChip8::LD_byte},
+        {0xA000, &Cpu::ImplChip8::LD_I},
+        {0xF033, &Cpu::ImplChip8::LD_B_reg},
+        {0x7000, &Cpu::ImplChip8::ADD_byte},
+        {0xB000, &Cpu::ImplChip8::JP_reg},
+        {0xF055, &Cpu::ImplChip8::LD_ram_reg},
+        {0x8000, &Cpu::ImplChip8::LD_reg},
+        {0xC000, &Cpu::ImplChip8::RND},
+        {0xF065, &Cpu::ImplChip8::LD_reg_ram},
+        {0x8001, &Cpu::ImplChip8::OR},
+        {0xD000, &Cpu::ImplChip8::DRW},
+        {0x8002, &Cpu::ImplChip8::AND},
+        {0xE09E, &Cpu::ImplChip8::SKP},
 };

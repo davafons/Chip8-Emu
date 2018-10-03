@@ -4,25 +4,25 @@
 #include <functional>
 #include <unordered_map>
 
-#include "cpu/opcode.h"
 #include "cpu/cpu.h"
+#include "cpu/opcode.h"
 
 class Memory;
 
 class Cpu::ImplChip8 {
 public:
   explicit ImplChip8(Memory &memory);
+  void reset();
 
   void fetch();
   void execute();
   void updateTimers();
-  void reset();
+  void resetFlags();
 
-  bool mustDraw() const;
-  bool mustSound() const;
+  bool mustDraw() const { return draw_; }
+  bool mustSound() const { return sound_; }
 
 private:
-
   //// Chip8 Instruction Set
   void CLS();        // 00E0 - CLS
   void RET();        // 00EE - RET
