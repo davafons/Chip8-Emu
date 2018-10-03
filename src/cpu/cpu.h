@@ -3,14 +3,13 @@
 #include <memory>
 
 class Memory;
-class Impl;
 
 class Cpu {
 public:
   explicit Cpu(Memory &memory);
+  ~Cpu();
   Cpu(const Cpu &) = delete;
   Cpu &operator=(const Cpu &) = delete;
-  ~Cpu();
 
   void cycle();
 
@@ -18,5 +17,6 @@ public:
   bool mustSound() const;
 
 private:
-  Impl *impl_;
+  class ImplChip8;
+  ImplChip8 * impl_;
 };

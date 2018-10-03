@@ -37,7 +37,7 @@ LIB := -L$(CURDIR)/lib/
 
 # Compiler and Linker flags
 CFLAGS := -Wall $(INCLUDE)
-CXXFLAGS := -Wall -std=c++11 $(INCLUDE)
+CXXFLAGS := -Wall -std=c++14 $(INCLUDE)
 
 LDFLAGS := $(LIB)
 LDLIBS = -lSDL2main -lSDL2

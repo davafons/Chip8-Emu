@@ -6,6 +6,7 @@
 Memory::Memory() { reset(); }
 
 void Memory::reset() {
+  std::cout << "-- Resetting memory..." << std::endl;
   // Wipe memory
   std::fill(ram_.begin(), ram_.end(), 0);
   std::fill(display_.begin(), display_.end(), 0);
@@ -15,11 +16,12 @@ void Memory::reset() {
   std::copy(hex_sprites.cbegin(), hex_sprites.cend(), ram_.begin());
 
   loaded_ = false;
+  std::cout << "-- Memory completely cleaned" << std::endl;
 }
 
 void Memory::loadRom(const std::string &rom_path) {
   try {
-    std::cerr << "-- Loading Rom in " << rom_path << "..." << std::endl;
+    std::cerr << "-- Loading Rom located in " << rom_path << "..." << std::endl;
     std::ifstream rom = openFileWithExceptions(rom_path);
     copyRomtoMemory(rom);
     rom.close();
@@ -50,6 +52,7 @@ void Memory::checkRomExtension(const std::string &rom_path) const {
 
 void Memory::copyRomtoMemory(std::ifstream &file) {
   std::streampos size = file.tellg();
+  std::cout << "-- Rom size:" << size << std::endl;
   file.seekg(0, std::ifstream::beg);
   file.read(reinterpret_cast<char *>(ram_.data()) + 0x0200, size);
 }

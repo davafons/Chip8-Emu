@@ -6,8 +6,14 @@
 
 Chip8Facade::Chip8Facade(const std::string &rom_path)
     : input_(new InputSDL(memory_, quit_)), display_(new DisplaySDL(memory_)) {
+  std::cout << "\n\n |---- CHIP8 Emulator ----|" << std::endl;
   if (!rom_path.empty())
     memory_.loadRom(rom_path);
+  else
+  {
+    std::cout << "Please drop a .ch or .rom file to start emulation..." <<
+      std::endl;
+  }
 }
 
 Chip8Facade::~Chip8Facade() {

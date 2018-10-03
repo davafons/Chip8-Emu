@@ -2,7 +2,7 @@
 #include "impl/implChip8.h"
 #include "memory.h"
 
-Cpu::Cpu(Memory &memory) : impl_(new ImplChip8(memory)) {}
+Cpu::Cpu(Memory &memory) : impl_(new ImplChip8(memory)){}
 Cpu::~Cpu() { delete impl_; }
 
 void Cpu::cycle() {

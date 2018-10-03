@@ -5,21 +5,21 @@
 #include <unordered_map>
 
 #include "cpu/opcode.h"
-#include "impl.h"
+#include "cpu/cpu.h"
 
 class Memory;
 
-class ImplChip8 : public Impl {
+class Cpu::ImplChip8 {
 public:
   explicit ImplChip8(Memory &memory);
 
-  void fetch() override;
-  void execute() override;
-  void updateTimers() override;
-  void reset() override;
+  void fetch();
+  void execute();
+  void updateTimers();
+  void reset();
 
-  bool mustDraw() const override { return draw_; }
-  bool mustSound() const override { return sound_; }
+  bool mustDraw() const;
+  bool mustSound() const;
 
 private:
 
@@ -60,9 +60,9 @@ private:
   void LD_reg_ram(); // Fx65 - LD Vx, [I]
 
 private:
-  Memory &mem_;
+  Memory &mem_; // ram, display and keys
 
-  Opcode opcode_;
+  Opcode opcode_; // Current instruction being executed
 
   std::array<uint8_t, 16> V_; // General-purpose registers
 

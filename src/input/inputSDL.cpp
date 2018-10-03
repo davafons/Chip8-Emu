@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include <SDL2/SDL.h>
 
 #include "inputSDL.h"
@@ -10,7 +12,7 @@ void InputSDL::pollEvents() {
   if (SDL_PollEvent(&e) != 0) {
     switch (e.type) {
     case SDL_QUIT:
-      quit_ = true;
+      exit();
       break;
 
     case SDL_DROPFILE:
@@ -37,7 +39,10 @@ void InputSDL::pollEvents() {
   }
 }
 
-void InputSDL::exit() { quit_ = true; }
+void InputSDL::exit() {
+  std::cout << "Closing the emulator..." << std::endl;
+  quit_ = true;
+}
 
 void InputSDL::keyDown(size_t pos) { memory_.writeToKeys(pos) = 1; }
 void InputSDL::keyUp(size_t pos) { memory_.writeToKeys(pos) = 0; }
