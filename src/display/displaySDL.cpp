@@ -5,8 +5,6 @@
 
 DisplaySDL::DisplaySDL(Memory &memory)
     : memory_(memory), window_(nullptr), renderer_(nullptr) {
-  if (SDL_Init(SDL_INIT_VIDEO) < 0)
-    throw SDL_GetError();
 
   window_ =
       SDL_CreateWindow("Chip-8 emulator", SDL_WINDOWPOS_CENTERED,
@@ -38,8 +36,6 @@ DisplaySDL::DisplaySDL(Memory &memory)
 DisplaySDL::~DisplaySDL() {
   SDL_DestroyWindow(window_);
   SDL_DestroyRenderer(renderer_);
-
-  SDL_Quit();
 }
 
 void DisplaySDL::render() {

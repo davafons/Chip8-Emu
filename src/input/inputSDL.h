@@ -9,6 +9,8 @@ class Memory;
 class InputSDL : public Input {
 public:
   InputSDL(Memory &memory, bool &quit);
+  InputSDL(const InputSDL &) = delete;
+  InputSDL &operator=(const InputSDL &) = delete;
 
   void pollEvents() override;
 

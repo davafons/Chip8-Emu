@@ -1,24 +1,26 @@
 #include "chip8Facade.h"
-#include "display/displaySDL.h"
-#include "input/inputSDL.h"
+#include "display/display.h"
+#include "factory/abstractFactory.h"
+#include "input/input.h"
+#include "sound/sound.h"
 
 #include <iostream>
 
-Chip8Facade::Chip8Facade(const std::string &rom_path)
-    : input_(new InputSDL(memory_, quit_)), display_(new DisplaySDL(memory_)) {
+Chip8Facade::Chip8Facade(std::unique_ptr<AbstractFactory> factory,
+                         const std::string &rom_path)
+    : factory_(std::move(factory)),
+      input_(factory_->createInput(memory_, quit_)),
+      display_(factory_->createDisplay(memory_)),
+      sound_(factory_->createSound()) {
+
   std::cout << "\n\n |---- CHIP8 Emulator ----|" << std::endl;
+
   if (!rom_path.empty())
     memory_.loadRom(rom_path);
-  else
-  {
-    std::cout << "Please drop a .ch or .rom file to start emulation..." <<
-      std::endl;
+  else {
+    std::cout << "Please drop a .ch or .rom file to start emulation..."
+              << std::endl;
   }
-}
-
-Chip8Facade::~Chip8Facade() {
-  delete input_;
-  delete display_;
 }
 
 void Chip8Facade::execute() {
@@ -33,6 +35,11 @@ void Chip8Facade::execute() {
       // Update screen
       if (cpu_.mustDraw()) {
         display_->render();
+      }
+
+      // Play sound
+      if (cpu_.mustSound()) {
+        sound_->playPitch();
       }
     }
   }

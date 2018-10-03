@@ -1,29 +1,36 @@
 #pragma once
 
+#include <memory>
 #include <string>
 
 #include "cpu/cpu.h"
 #include "memory/memory.h"
 
-class Input;
+class AbstractFactory;
 class Display;
+class Input;
+class Sound;
 
 // INLINE
 
 class Chip8Facade {
 public:
-  explicit Chip8Facade(const std::string &rom_path = "");
-  ~Chip8Facade();
+  explicit Chip8Facade(std::unique_ptr<AbstractFactory> factory,
+                       const std::string &rom_path = "");
+  ~Chip8Facade() = default;
   Chip8Facade(Chip8Facade &) = delete;
   Chip8Facade &operator=(Chip8Facade &) = delete;
 
   void execute();
 
 private:
+  std::unique_ptr<AbstractFactory> factory_;
+
   bool quit_{false};
 
   Memory memory_;
   Cpu cpu_{memory_};
-  Input *input_;
-  Display *display_;
+  std::unique_ptr<Input> input_;
+  std::unique_ptr<Display> display_;
+  std::unique_ptr<Sound> sound_;
 };

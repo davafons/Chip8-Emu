@@ -1,11 +1,12 @@
 #include "cpu.h"
 #include "impl/implChip8.h"
-#include "memory.h"
+#include "memory/memory.h"
 
-Cpu::Cpu(Memory &memory) : impl_(new ImplChip8(memory)){}
-Cpu::~Cpu() { delete impl_; }
+Cpu::Cpu(Memory &memory) : impl_(std::make_unique<ImplChip8>(memory)) {}
+Cpu::~Cpu() = default;
 
 void Cpu::cycle() {
+  impl_->resetFlags();
   impl_->fetch();
   impl_->execute();
   impl_->updateTimers();
