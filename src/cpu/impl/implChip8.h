@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <chrono>
 #include <functional>
 #include <unordered_map>
 
@@ -18,6 +19,7 @@ public:
   void execute();
   void updateTimers();
   void resetFlags();
+  void delay();
 
   bool mustDraw() const { return draw_; }
   bool mustSound() const { return sound_; }
@@ -77,6 +79,9 @@ private:
 
   bool draw_;  // true if the screen must be updated in this cycle
   bool sound_; // true if the program must emit a sound
+
+  std::chrono::system_clock::time_point now_;
+  std::chrono::system_clock::time_point lastFrame_;
 
   //// Function pointer table
   using InstructionPtr_t = std::function<void(ImplChip8 &)>;

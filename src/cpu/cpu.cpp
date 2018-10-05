@@ -10,6 +10,7 @@ void Cpu::cycle() {
   impl_->fetch();
   impl_->execute();
   impl_->updateTimers();
+  impl_->delay();
 }
 
 bool Cpu::mustDraw() const { return impl_->mustDraw(); }
