@@ -9,8 +9,11 @@ void Cpu::cycle() {
   impl_->resetFlags();
   impl_->fetch();
   impl_->execute();
-  impl_->updateTimers();
-  impl_->delay();
+
+  if(timer_.mustUpdateCpuTimers())
+    impl_->updateTimers();
+
+  timer_.delayCpu();
 }
 
 bool Cpu::mustDraw() const { return impl_->mustDraw(); }

@@ -2,6 +2,8 @@
 
 #include <memory>
 
+#include "timer.h"
+
 class Memory;
 
 class Cpu {
@@ -19,4 +21,6 @@ public:
 private:
   class ImplChip8;
   std::unique_ptr<ImplChip8> impl_;
+
+  Timer timer_;
 };

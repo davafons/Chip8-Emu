@@ -1,5 +1,4 @@
 #include <iostream>
-#include <thread>
 
 #include "implChip8.h"
 #include "memory/memory.h"
@@ -21,9 +20,6 @@ void Cpu::ImplChip8::reset() {
   // Clear flags
   draw_ = true;
   sound_ = false;
-
-  now_ = std::chrono::system_clock::now();
-  lastFrame_ = std::chrono::system_clock::now();
 
   std::cout << "-- Cpu resetted" << std::endl;
 
@@ -87,17 +83,6 @@ void Cpu::ImplChip8::resetFlags() {
 
 
 void Cpu::ImplChip8::delay() {
-  now_ = std::chrono::system_clock::now();
-  std::chrono::duration<double, std::milli> work_time = now_ - lastFrame_;
-  if(work_time.count() < 3.00) {
-    std::chrono::duration<double, std::milli> delta_ms(3.00 -
-        work_time.count());
-    auto delta_ms_duration =
-      std::chrono::duration_cast<std::chrono::milliseconds>(delta_ms);
-    std::this_thread::sleep_for(std::chrono::milliseconds(delta_ms_duration.count()));
-  }
-
-  lastFrame_ = std::chrono::system_clock::now();
 }
 
 /////////////////////////////////////////////////
