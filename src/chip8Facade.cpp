@@ -20,6 +20,8 @@ Chip8Facade::Chip8Facade(std::unique_ptr<AbstractFactory> factory,
 void Chip8Facade::loadRom(const std::string &rom_path) {
   if (!rom_path.empty())
   {
+    std::cout << "\n\n |---- Loading Rom ----|" << std::endl;
+    cpu_.reset();
     memory_.loadRom(rom_path);
     rom_path_ = rom_path;
   }
@@ -53,7 +55,6 @@ void Chip8Facade::execute() {
 
 void Chip8Facade::reset() {
   std::cout << "\n\n|---- RESETTING GAME ----|" << std::endl;
-  cpu_.reset();
   loadRom(rom_path_);
 }
 
