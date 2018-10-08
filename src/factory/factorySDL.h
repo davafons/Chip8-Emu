@@ -16,6 +16,6 @@ public:
   ~FactorySDL();
 
   DisplaySDL *createDisplay(Memory &memory) const override;
-  InputSDL *createInput(Memory &memory, bool &quit) const override;
+  InputSDL *createInput(Chip8Facade &facade, Memory &memory) const override;
   SoundSDL *createSound() const override;
 };

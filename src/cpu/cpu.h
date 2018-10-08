@@ -14,6 +14,7 @@ public:
   Cpu &operator=(const Cpu &) = delete;
 
   void cycle();
+  void reset();
 
   bool mustDraw() const;
   bool mustSound() const;

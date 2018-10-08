@@ -5,25 +5,24 @@
 #include "input.h"
 
 class Memory;
+class Chip8Facade;
 
 class InputSDL : public Input {
 public:
-  InputSDL(Memory &memory, bool &quit);
+  explicit InputSDL(Chip8Facade &facade, Memory &memory);
   InputSDL(const InputSDL &) = delete;
   InputSDL &operator=(const InputSDL &) = delete;
 
   void pollEvents() override;
 
 private:
-  void exit() override;
-
   void keyDown(size_t pos) override;
   void keyUp(size_t pos) override;
 
 private:
   // Components
+  Chip8Facade &facade_;
   Memory &memory_;
-  bool &quit_;
 
   // Attributes
   static std::array<uint8_t, 16> keymap_;

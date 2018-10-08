@@ -21,12 +21,17 @@ public:
   Chip8Facade(Chip8Facade &) = delete;
   Chip8Facade &operator=(Chip8Facade &) = delete;
 
+  void loadRom(const std::string &rom_path);
+
   void execute();
+  void reset();
+  void exit();
 
 private:
   std::unique_ptr<AbstractFactory> factory_;
 
   bool quit_{false};
+  std::string rom_path_{""};
 
   Memory memory_;
   Cpu cpu_{memory_};

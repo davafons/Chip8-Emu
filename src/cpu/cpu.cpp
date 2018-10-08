@@ -16,5 +16,9 @@ void Cpu::cycle() {
   timer_.delayCpu();
 }
 
+void Cpu::reset() {
+  impl_->reset();
+}
+
 bool Cpu::mustDraw() const { return impl_->mustDraw(); }
 bool Cpu::mustSound() const { return impl_->mustSound(); }

@@ -3,6 +3,7 @@
 
 #include "factorySDL.h"
 #include "memory/memory.h"
+#include "chip8Facade.h"
 
 FactorySDL::FactorySDL() {
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -20,8 +21,8 @@ DisplaySDL *FactorySDL::createDisplay(Memory &memory) const {
   return new DisplaySDL(memory);
 }
 
-InputSDL *FactorySDL::createInput(Memory &memory, bool &quit) const {
-  return new InputSDL(memory, quit);
+InputSDL *FactorySDL::createInput(Chip8Facade & facade, Memory &memory) const {
+  return new InputSDL(facade, memory);
 }
 
 SoundSDL *FactorySDL::createSound() const { return new SoundSDL; }

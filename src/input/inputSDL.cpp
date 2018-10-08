@@ -3,25 +3,29 @@
 #include <SDL2/SDL.h>
 
 #include "inputSDL.h"
-#include "memory/memory.h"
+#include "chip8Facade.h"
 
-InputSDL::InputSDL(Memory &memory, bool &quit) : memory_(memory), quit_(quit) {}
+InputSDL::InputSDL(Chip8Facade &facade, Memory &memory) :
+  facade_(facade), memory_(memory) {}
 
 void InputSDL::pollEvents() {
   SDL_Event e;
   if (SDL_PollEvent(&e) != 0) {
     switch (e.type) {
     case SDL_QUIT:
-      exit();
+      facade_.exit();
       break;
 
     case SDL_DROPFILE:
-      memory_.loadRom(e.drop.file);
+      facade_.loadRom(e.drop.file);
       break;
 
     case SDL_KEYDOWN:
       if (e.key.keysym.sym == SDLK_ESCAPE)
-        exit();
+        facade_.exit();
+
+      if(e.key.keysym.sym == SDLK_g)
+        facade_.reset();
 
       for (size_t i = 0; i < keymap_.size(); ++i) {
         if (e.key.keysym.sym == keymap_[i])
@@ -37,11 +41,6 @@ void InputSDL::pollEvents() {
       break;
     }
   }
-}
-
-void InputSDL::exit() {
-  std::cout << "Closing the emulator..." << std::endl;
-  quit_ = true;
 }
 
 void InputSDL::keyDown(size_t pos) { memory_.writeToKeys(pos) = 1; }
