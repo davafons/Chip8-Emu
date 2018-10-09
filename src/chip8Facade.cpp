@@ -62,3 +62,13 @@ void Chip8Facade::reset() {
 void Chip8Facade::exit() {
   quit_ = true;
 }
+
+
+void Chip8Facade::doubleSpeed() {
+  cpu_.doubleSpeed();
+}
+
+
+void Chip8Facade::halfSpeed() {
+  cpu_.halfSpeed();
+}

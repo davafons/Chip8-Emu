@@ -24,8 +24,20 @@ void InputSDL::pollEvents() {
       if (e.key.keysym.sym == SDLK_ESCAPE)
         facade_.exit();
 
-      if(e.key.keysym.sym == SDLK_g)
+      else if(e.key.keysym.sym == SDLK_g)
         facade_.reset();
+
+      else if(e.key.keysym.sym == SDLK_F1)
+      {
+        std::cout << "-- Half Cpu speed." << std::endl;
+        facade_.halfSpeed();
+      }
+
+      else if(e.key.keysym.sym == SDLK_F2)
+      {
+        std::cout << "-- Double Cpu speed." << std::endl;
+        facade_.doubleSpeed();
+      }
 
       for (size_t i = 0; i < keymap_.size(); ++i) {
         if (e.key.keysym.sym == keymap_[i])

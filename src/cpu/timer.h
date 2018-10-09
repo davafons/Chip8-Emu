@@ -9,6 +9,9 @@ public:
   void delayCpu();
   bool mustUpdateCpuTimers();
 
+  void doubleSpeed();
+  void halfSpeed();
+
 private:
   int cpuFrequency_;
   int timersFrequency_;

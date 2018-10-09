@@ -15,9 +15,10 @@ void Timer::delayCpu() {
   now_ = std::chrono::system_clock::now();
 
   std::chrono::duration<double, std::milli> work_time = now_ - last_;
+
   if(work_time.count() < 1/double(cpuFrequency_) * 1000) {
-    std::chrono::duration<double, std::milli> delta_ms(3.00 -
-        work_time.count());
+    std::chrono::duration<double, std::milli> delta_ms(1/double(cpuFrequency_) *
+        1000 - work_time.count());
     auto delta_ms_duration =
       std::chrono::duration_cast<std::chrono::milliseconds>(delta_ms);
     std::this_thread::sleep_for(
@@ -37,4 +38,16 @@ bool Timer::mustUpdateCpuTimers() {
     return true;
   }
   return false;
+}
+
+
+void Timer::doubleSpeed() {
+  cpuFrequency_ *= 2;
+  timersFrequency_ *= 2;
+}
+
+
+void Timer::halfSpeed() {
+  cpuFrequency_ /= 2;
+  timersFrequency_ /= 2;
 }

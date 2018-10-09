@@ -27,6 +27,9 @@ public:
   void reset();
   void exit();
 
+  void doubleSpeed();
+  void halfSpeed();
+
 private:
   std::unique_ptr<AbstractFactory> factory_;
 

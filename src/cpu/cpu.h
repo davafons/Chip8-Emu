@@ -19,6 +19,9 @@ public:
   bool mustDraw() const;
   bool mustSound() const;
 
+  void doubleSpeed();
+  void halfSpeed();
+
 private:
   class ImplChip8;
   std::unique_ptr<ImplChip8> impl_;
