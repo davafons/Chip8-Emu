@@ -2,11 +2,19 @@
 
 #include <SDL2/SDL.h>
 
-#include "inputSDL.h"
 #include "chip8Facade.h"
+#include "inputSDL.h"
 
-InputSDL::InputSDL(Chip8Facade &facade, Memory &memory) :
-  facade_(facade), memory_(memory) {}
+InputSDL::InputSDL(Chip8Facade &facade, Memory &memory)
+    : facade_(facade), memory_(memory) {
+  if (SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER) < 0)
+    throw SDL_GetError();
+}
+
+InputSDL::~InputSDL()
+{
+  SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER);
+}
 
 void InputSDL::pollEvents() {
   SDL_Event e;
@@ -24,17 +32,15 @@ void InputSDL::pollEvents() {
       if (e.key.keysym.sym == SDLK_ESCAPE)
         facade_.exit();
 
-      else if(e.key.keysym.sym == SDLK_g)
+      else if (e.key.keysym.sym == SDLK_g)
         facade_.reset();
 
-      else if(e.key.keysym.sym == SDLK_F1)
-      {
+      else if (e.key.keysym.sym == SDLK_F1) {
         std::cout << "-- Half Cpu speed." << std::endl;
         facade_.halfSpeed();
       }
 
-      else if(e.key.keysym.sym == SDLK_F2)
-      {
+      else if (e.key.keysym.sym == SDLK_F2) {
         std::cout << "-- Double Cpu speed." << std::endl;
         facade_.doubleSpeed();
       }

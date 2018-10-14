@@ -7,7 +7,8 @@ Timer::Timer(int cpuFrequency, int timersFrequency) :
   cpuFrequency_(cpuFrequency),
   timersFrequency_(timersFrequency),
   now_(std::chrono::system_clock::now()),
-  last_(std::chrono::system_clock::now())
+  last_(std::chrono::system_clock::now()),
+  accumulatedTime_(std::chrono::duration<double, std::milli>(0.0))
 {
 }
 

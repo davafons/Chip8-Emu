@@ -1,3 +1,4 @@
+#include <iostream>
 #include <memory>
 #include <string>
 
@@ -10,8 +11,15 @@ int main(int argc, char *argv[]) {
     rom_path = argv[1];
   }
 
-  Chip8Facade c8(std::make_unique<FactorySDL>(), rom_path);
-  c8.execute();
+  try
+  {
+    Chip8Facade c8(std::make_unique<FactorySDL>(), rom_path);
+    c8.execute();
+  }
+  catch(const char *msg)
+  {
+    std::cout << "SDL_Error: " << msg << std::endl;
+  }
 
   return 0;
 }

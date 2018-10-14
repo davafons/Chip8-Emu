@@ -11,9 +11,9 @@ class Memory;
 class FactorySDL : public AbstractFactory {
 public:
   explicit FactorySDL();
+  ~FactorySDL();
   FactorySDL(const FactorySDL &) = delete;
   FactorySDL &operator=(const FactorySDL &) = delete;
-  ~FactorySDL();
 
   DisplaySDL *createDisplay(Memory &memory) const override;
   InputSDL *createInput(Chip8Facade &facade, Memory &memory) const override;

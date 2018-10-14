@@ -10,6 +10,7 @@ class Chip8Facade;
 class InputSDL : public Input {
 public:
   explicit InputSDL(Chip8Facade &facade, Memory &memory);
+  ~InputSDL();
   InputSDL(const InputSDL &) = delete;
   InputSDL &operator=(const InputSDL &) = delete;
 

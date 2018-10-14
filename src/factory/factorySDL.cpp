@@ -6,9 +6,8 @@
 #include "chip8Facade.h"
 
 FactorySDL::FactorySDL() {
-  if (SDL_Init(SDL_INIT_VIDEO) < 0)
+  if(SDL_Init(0) < 0)
     throw SDL_GetError();
-
   std::cout << "-- SDL loaded without erros!!" << std::endl;
 }
 
