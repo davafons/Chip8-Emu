@@ -184,29 +184,29 @@ void Cpu::ImplChip8::ADD_reg() {
 // 8xy5 - SUB Vx, Vy - Set Vx = Vx - Vy, set VF = NOT borrow.
 void Cpu::ImplChip8::SUB() {
   DEBUG("SUB");
-  V_[0xF] = V_[opcode_.y()] > V_[opcode_.x()] ? 0 : 1;
+  V_[0xF] = (V_[opcode_.y()] > V_[opcode_.x()]) ? 0 : 1;
   V_[opcode_.x()] -= V_[opcode_.y()];
 }
 
 // 8xy6 - SHR Vx {, Vy} - Set Vx = Vy SHR 1.
 void Cpu::ImplChip8::SHR() {
   DEBUG("SHR");
-  V_[0xF] = V_[opcode_.y()] & 0x0001;
-  V_[opcode_.x()] = V_[opcode_.y()] >> 1;
+  V_[0xF] = V_[opcode_.x()] & 0x0001;
+  V_[opcode_.x()] >>= 1;
 }
 
 // 8xy7 - SUBN Vx, Vy - Set Vx = Vy - Vx, set VF = NOT borrow.
 void Cpu::ImplChip8::SUBN() {
   DEBUG("SUBN");
-  V_[0xF] = V_[opcode_.x()] > V_[opcode_.y()] ? 0 : 1;
+  V_[0xF] = (V_[opcode_.x()] > V_[opcode_.y()]) ? 0 : 1;
   V_[opcode_.x()] = V_[opcode_.y()] - V_[opcode_.x()];
 }
 
 // 8xyE - SHL Vx {, Vy} - Set Vx = Vx SHL 1.
 void Cpu::ImplChip8::SHL() {
   DEBUG("SHL");
-  V_[0xF] = V_[opcode_.y()] >> 7;
-  V_[opcode_.x()] = V_[opcode_.y()] << 1;
+  V_[0xF] = V_[opcode_.x()] >> 7;
+  V_[opcode_.x()] <<= 1;
 }
 
 // 9xy0 - SNE Vx, Vy - Skip next instruction if Vx != Vy.
@@ -231,7 +231,7 @@ void Cpu::ImplChip8::JP_reg() {
 // Cxkk - RND Vx, byte - Set Vx = random byte AND kk.
 void Cpu::ImplChip8::RND() {
   DEBUG("RND");
-  V_[opcode_.x()] = opcode_.kk() & rand();
+  V_[opcode_.x()] = (opcode_.kk() & rand());
 }
 
 // Dxyn - DRW Vx, Vy, nibble - Display n-byte sprite starting at memory location
@@ -247,6 +247,9 @@ void Cpu::ImplChip8::DRW() {
     uint8_t pixel = mem_.readFromRam(I_ + yline);
     for (uint8_t xline = 0; xline < 8; ++xline) {
       if ((pixel & (0x80 >> xline)) != 0) {
+	    int pos = x + xline + ((y + yline) * 64);
+	    if (pos >= 2048 || pos < 0)
+	  	  continue;
         if (mem_.readFromDisplay((x + xline + ((y + yline) * 64))) == 1)
           V_[0xF] = 1;
         mem_.writeToDisplay((x + xline + ((y + yline) * 64))) ^= 1;
@@ -307,6 +310,7 @@ void Cpu::ImplChip8::LD_st_reg() {
 // Fx1E - ADD I, Vx - Set I = I + Vx.
 void Cpu::ImplChip8::ADD_I_reg() {
   DEBUG("ADD_I_reg");
+  V_[0xF] = (I_ + V_[opcode_.x()] > 0xFFF) ? 1 : 0; // Needs to check
   I_ += V_[opcode_.x()];
 }
 
