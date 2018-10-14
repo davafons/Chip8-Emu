@@ -7,9 +7,14 @@ SoundSDL::SoundSDL() {
   if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
     throw SDL_GetError();
 
-  if (SDL_LoadWAV("../res/beep.wav", &wav_spec_, &wav_buffer_, &wav_length_) ==
+  char *base_path = SDL_GetBasePath();
+  std::string wav_path = base_path + std::string("../res/beep.wav");
+
+  if (SDL_LoadWAV(wav_path.c_str(), &wav_spec_, &wav_buffer_, &wav_length_) ==
       nullptr)
     throw SDL_GetError();
+
+  SDL_free(base_path);
 
   device_id_ = SDL_OpenAudioDevice(nullptr, 0, &wav_spec_, nullptr, 0);
   if(device_id_ == 0)
