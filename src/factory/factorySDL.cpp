@@ -1,12 +1,14 @@
-#include <SDL2/SDL.h>
 #include <iostream>
 
+#include <SDL2/SDL.h>
+
 #include "factorySDL.h"
-#include "memory/memory.h"
-#include "chip8Facade.h"
+
+class Memory;
+class Chip8Facade;
 
 FactorySDL::FactorySDL() {
-  if(SDL_Init(0) < 0)
+  if (SDL_Init(0) < 0)
     throw SDL_GetError();
   std::cout << "-- SDL loaded without erros!!" << std::endl;
 }
@@ -20,7 +22,7 @@ DisplaySDL *FactorySDL::createDisplay(Memory &memory) const {
   return new DisplaySDL(memory);
 }
 
-InputSDL *FactorySDL::createInput(Chip8Facade & facade, Memory &memory) const {
+InputSDL *FactorySDL::createInput(Chip8Facade &facade, Memory &memory) const {
   return new InputSDL(facade, memory);
 }
 

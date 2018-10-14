@@ -4,6 +4,7 @@
 
 #include "chip8Facade.h"
 #include "inputSDL.h"
+#include "memory/memory.h"
 
 InputSDL::InputSDL(Chip8Facade &facade, Memory &memory)
     : facade_(facade), memory_(memory) {
@@ -11,10 +12,7 @@ InputSDL::InputSDL(Chip8Facade &facade, Memory &memory)
     throw SDL_GetError();
 }
 
-InputSDL::~InputSDL()
-{
-  SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER);
-}
+InputSDL::~InputSDL() { SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER); }
 
 void InputSDL::pollEvents() {
   SDL_Event e;

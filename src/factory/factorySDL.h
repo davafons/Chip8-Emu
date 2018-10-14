@@ -1,7 +1,6 @@
 #pragma once
 
 #include "abstractFactory.h"
-
 #include "display/displaySDL.h"
 #include "input/inputSDL.h"
 #include "sound/soundSDL.h"

@@ -81,9 +81,7 @@ void Cpu::ImplChip8::resetFlags() {
   sound_ = false;
 }
 
-
-void Cpu::ImplChip8::delay() {
-}
+void Cpu::ImplChip8::delay() {}
 
 /////////////////////////////////////////////////
 //////// Standard Chip-8 Instruction set ////////
@@ -247,9 +245,9 @@ void Cpu::ImplChip8::DRW() {
     uint8_t pixel = mem_.readFromRam(I_ + yline);
     for (uint8_t xline = 0; xline < 8; ++xline) {
       if ((pixel & (0x80 >> xline)) != 0) {
-	    int pos = x + xline + ((y + yline) * 64);
-	    if (pos >= 2048 || pos < 0)
-	  	  continue;
+        int pos = x + xline + ((y + yline) * 64);
+        if (pos >= 2048 || pos < 0)
+          continue;
         if (mem_.readFromDisplay((x + xline + ((y + yline) * 64))) == 1)
           V_[0xF] = 1;
         mem_.writeToDisplay((x + xline + ((y + yline) * 64))) ^= 1;

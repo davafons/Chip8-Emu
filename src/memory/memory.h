@@ -8,7 +8,6 @@ class Memory {
 public:
   Memory();
   void reset();
-  void loadRom(const std::string &path);
   bool romLoaded() const { return loaded_; }
 
   uint8_t readFromRam(size_t pos) const { return ram_[pos]; }
@@ -22,6 +21,9 @@ public:
   uint8_t &writeToKeys(size_t pos) { return keys_[pos]; }
 
 private:
+  friend class Chip8Facade;
+  void loadRom(const std::string &path);
+
   std::ifstream openFileWithExceptions(const std::string &rom_path) const;
   void checkRomExtension(const std::string &rom_path) const;
   void copyRomtoMemory(std::ifstream &file);

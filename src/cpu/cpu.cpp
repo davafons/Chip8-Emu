@@ -10,18 +10,16 @@ void Cpu::cycle() {
   impl_->fetch();
   impl_->execute();
 
-  if(timer_.mustUpdateCpuTimers())
+  if (timer_.mustUpdateCpuTimers())
     impl_->updateTimers();
 
   timer_.delayCpu();
 }
 
-void Cpu::reset() {
-  impl_->reset();
-}
+void Cpu::reset() { impl_->reset(); }
 
 bool Cpu::mustDraw() const { return impl_->mustDraw(); }
 bool Cpu::mustSound() const { return impl_->mustSound(); }
 
 void Cpu::doubleSpeed() { timer_.doubleSpeed(); }
-void Cpu::halfSpeed() { timer_.halfSpeed(); };
+void Cpu::halfSpeed() { timer_.halfSpeed(); }

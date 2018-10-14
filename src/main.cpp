@@ -11,9 +11,13 @@ int main(int argc, char *argv[]) {
     rom_path = argv[1];
   }
 
+  // Factories will be expanded when adding more graphic libraries
+  std::unique_ptr<AbstractFactory> factory;
+  factory = std::make_unique<FactorySDL>();
+
   try
   {
-    Chip8Facade c8(std::make_unique<FactorySDL>(), rom_path);
+    Chip8Facade c8(factory, rom_path);
     c8.execute();
   }
   catch(const char *msg)

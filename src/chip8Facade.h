@@ -15,7 +15,7 @@ class Sound;
 
 class Chip8Facade {
 public:
-  explicit Chip8Facade(std::unique_ptr<AbstractFactory> factory,
+  explicit Chip8Facade(std::unique_ptr<AbstractFactory> &factory,
                        const std::string &rom_path = "");
   ~Chip8Facade() = default;
   Chip8Facade(Chip8Facade &) = delete;
@@ -25,20 +25,18 @@ public:
 
   void execute();
   void reset();
-  void exit();
+  void exit() { quit_ = true; }
 
-  void doubleSpeed();
-  void halfSpeed();
+  void doubleSpeed() { cpu_.doubleSpeed(); }
+  void halfSpeed() { cpu_.halfSpeed(); }
 
 private:
-  std::unique_ptr<AbstractFactory> factory_;
-
   bool quit_{false};
   std::string rom_path_{""};
 
   Memory memory_;
   Cpu cpu_{memory_};
-  std::unique_ptr<Input> input_;
   std::unique_ptr<Display> display_;
+  std::unique_ptr<Input> input_;
   std::unique_ptr<Sound> sound_;
 };
