@@ -16,7 +16,7 @@ void Memory::reset() {
   std::copy(hex_sprites.cbegin(), hex_sprites.cend(), ram_.begin());
 
   loaded_ = false;
-  std::cout << "-- Memory completely cleaned" << std::endl;
+  std::cout << "-- Memory resetted." << std::endl;
 }
 
 void Memory::loadRom(const std::string &rom_path) {

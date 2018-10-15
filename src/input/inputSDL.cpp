@@ -33,6 +33,9 @@ void InputSDL::pollEvents() {
       else if (e.key.keysym.sym == SDLK_g)
         facade_.reset();
 
+      else if(e.key.keysym.sym == SDLK_t)
+        facade_.togglePause();
+
       else if (e.key.keysym.sym == SDLK_F1) {
         std::cout << "-- Half Cpu speed." << std::endl;
         facade_.halfSpeed();

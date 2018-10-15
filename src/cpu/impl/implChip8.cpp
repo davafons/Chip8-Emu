@@ -5,11 +5,9 @@
 
 #define DEBUG(x) // std::cerr << x << std::endl
 
-Cpu::ImplChip8::ImplChip8(Memory &memory) : mem_(memory) { reset(); }
+Cpu::ImplChip8::ImplChip8(Memory &memory) : mem_(memory) {}
 
 void Cpu::ImplChip8::reset() {
-  std::cout << "-- Resetting Cpu state..." << std::endl;
-
   // Clear registers
   PC_ = 0x0200;
   I_ = 0x0000;
@@ -20,8 +18,6 @@ void Cpu::ImplChip8::reset() {
   // Clear flags
   draw_ = true;
   sound_ = false;
-
-  std::cout << "-- Cpu resetted" << std::endl;
 
   // Reset memory
   if (mem_.romLoaded())

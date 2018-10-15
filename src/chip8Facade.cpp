@@ -11,7 +11,6 @@ Chip8Facade::Chip8Facade(std::unique_ptr<AbstractFactory> &factory,
     : display_(factory->createDisplay(memory_)),
       input_(factory->createInput(*this, memory_)),
       sound_(factory->createSound()) {
-
   std::cout << "\n\n |---- CHIP8 Emulator ----|" << std::endl;
   loadRom(rom_path);
 }
@@ -33,7 +32,7 @@ void Chip8Facade::execute() {
     // Handle input
     input_->pollEvents();
 
-    if (memory_.romLoaded()) {
+    if (memory_.romLoaded() && !cpu_.isPaused()) {
       // Emulate one cpu cycle
       cpu_.cycle();
 
@@ -51,6 +50,15 @@ void Chip8Facade::execute() {
 }
 
 void Chip8Facade::reset() {
-  std::cout << "\n\n|---- RESETTING GAME ----|" << std::endl;
+  std::cout << "\n\n |---- RESETTING GAME ----|" << std::endl;
   loadRom(rom_path_);
+}
+
+void Chip8Facade::togglePause() {
+  if(cpu_.isPaused())
+    std::cout << "\n |---- RESUMING GAME ----|" << std::endl;
+  else
+    std::cout << "\n |---- PAUSING  GAME ----|" << std::endl;
+
+  cpu_.togglePause();
 }

@@ -25,6 +25,7 @@ public:
 
   void execute();
   void reset();
+  void togglePause();
   void exit() { quit_ = true; }
 
   void doubleSpeed() { cpu_.doubleSpeed(); }

@@ -19,10 +19,14 @@ public:
   bool mustDraw() const;
   bool mustSound() const;
 
+  bool isPaused() const;
+  void togglePause();
+
   void doubleSpeed();
   void halfSpeed();
 
 private:
+  bool paused_{false};
   class ImplChip8;
   std::unique_ptr<ImplChip8> impl_;
 

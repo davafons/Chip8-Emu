@@ -67,17 +67,17 @@ private:
 
   std::array<uint8_t, 16> V_; // General-purpose registers
 
-  uint16_t PC_; // Currently executing address
-  uint16_t I_;  // Register for memory addresss
+  uint16_t PC_{0x0200}; // Currently executing address
+  uint16_t I_{0x0000};  // Register for memory addresss
 
   std::array<uint16_t, 16> stack_;
-  uint8_t SP_; // Point to the topmost level of the stack
+  uint8_t SP_{0x00}; // Point to the topmost level of the stack
 
-  uint8_t DT_; // Delay timer register
-  uint8_t ST_; // Sound timer register
+  uint8_t DT_{0x00}; // Delay timer register
+  uint8_t ST_{0x00}; // Sound timer register
 
-  bool draw_;  // true if the screen must be updated in this cycle
-  bool sound_; // true if the program must emit a sound
+  bool draw_{true};  // true if the screen must be updated in this cycle
+  bool sound_{false}; // true if the program must emit a sound
 
   //// Function pointer table
   using InstructionPtr_t = std::function<void(ImplChip8 &)>;
