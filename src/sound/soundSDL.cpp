@@ -4,21 +4,37 @@
 #include "soundSDL.h"
 
 SoundSDL::SoundSDL() {
-  if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
-    throw SDL_GetError();
-
   char *base_path = SDL_GetBasePath();
-  std::string wav_path = base_path + std::string("../res/beep.wav");
 
-  if (SDL_LoadWAV(wav_path.c_str(), &wav_spec_, &wav_buffer_, &wav_length_) ==
-      nullptr)
-    throw SDL_GetError();
+  try
+  {
+    if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
+      throw SDL_GetError();
+
+    std::string wav_path = base_path + std::string("../res/beep.wav");
+
+    if (SDL_LoadWAV(wav_path.c_str(), &wav_spec_, &wav_buffer_, &wav_length_) ==
+        nullptr)
+      throw SDL_GetError();
+
+    device_id_ = SDL_OpenAudioDevice(nullptr, 0, &wav_spec_, nullptr, 0);
+    if(device_id_ == 0)
+      throw SDL_GetError();
+
+    if(SDL_QueueAudio(device_id_, wav_buffer_, wav_length_) < 0)
+      throw SDL_GetError();
+
+    initialized_ = true;
+  }
+  catch(const char* msg)
+  {
+    std::cerr << "-- SoundSDL Error: " << msg << std::endl;
+    std::cerr << "\t- Sound will not be played." << std::endl;
+
+    initialized_ = false;
+  }
 
   SDL_free(base_path);
-
-  device_id_ = SDL_OpenAudioDevice(nullptr, 0, &wav_spec_, nullptr, 0);
-  if(device_id_ == 0)
-    throw SDL_GetError();
 }
 
 SoundSDL::~SoundSDL() {
@@ -28,15 +44,8 @@ SoundSDL::~SoundSDL() {
 }
 
 void SoundSDL::playPitch() const {
-  try
-  {
-    if(SDL_QueueAudio(device_id_, wav_buffer_, wav_length_) < 0)
-      throw SDL_GetError();
-
+  if(initialized_)
     SDL_PauseAudioDevice(device_id_, 0);
-  }
-  catch(const char* msg)
-  {
-    std::cerr << "SoundSDL::SDL_Error: " << msg << std::endl;
-  }
+  else
+    std::cout << "---- SOOOUNNDDDD ----" << std::endl;
 }

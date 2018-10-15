@@ -14,6 +14,9 @@ public:
   void playPitch() const override;
 
 private:
+
+  bool initialized_{false};
+
   SDL_AudioSpec wav_spec_;
   uint32_t wav_length_{0};
   uint8_t *wav_buffer_{nullptr};
