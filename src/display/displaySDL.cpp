@@ -13,13 +13,13 @@ DisplaySDL::DisplaySDL(Memory &memory)
       SDL_CreateWindow("Chip-8 emulator", SDL_WINDOWPOS_CENTERED,
                        SDL_WINDOWPOS_CENTERED, 512, 256, SDL_WINDOW_SHOWN);
 
-  if (window_ == nullptr)
+  if (!window_)
     throw SDL_GetError();
 
   renderer_ = SDL_CreateRenderer(
       window_, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-  if (renderer_ == nullptr)
+  if (!renderer_)
     throw SDL_GetError();
 
   // Sprites are automatically scaled to fit windows size

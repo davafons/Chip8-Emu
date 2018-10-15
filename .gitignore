@@ -14,7 +14,3 @@ lib/
 *.swp
 tags
 .clang_complete
-
-# Chip8 files
-*.ch8
-*.rom
