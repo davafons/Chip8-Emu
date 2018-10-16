@@ -1,13 +1,13 @@
 #include <iostream>
 
-#include "chip8Facade.h"
+#include "chip8.h"
 #include "display/display.h"
 #include "factory/abstractFactory.h"
 #include "input/input.h"
 #include "sound/sound.h"
 
-Chip8Facade::Chip8Facade(std::unique_ptr<AbstractFactory> &factory,
-                         const std::string &rom_path)
+Chip8::Chip8(std::unique_ptr<AbstractFactory> &factory,
+             const std::string &rom_path)
     : display_(factory->createDisplay(memory_)),
       input_(factory->createInput(commander_)), sound_(factory->createSound()) {
 
@@ -20,11 +20,9 @@ Chip8Facade::Chip8Facade(std::unique_ptr<AbstractFactory> &factory,
   }
 }
 
-Chip8Facade::~Chip8Facade() {
-  std::cout << "\n-- Closing the emulator...\n" << std::endl;
-}
+Chip8::~Chip8() { std::cout << "\n-- Closing the emulator...\n" << std::endl; }
 
-void Chip8Facade::execute() {
+void Chip8::execute() {
   while (!quit_) {
     // Handle input
     input_->pollEvents();

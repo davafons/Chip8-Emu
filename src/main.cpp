@@ -2,7 +2,7 @@
 #include <memory>
 #include <string>
 
-#include "chip8Facade.h"
+#include "chip8.h"
 #include "factory/factorySDL.h"
 
 int main(int argc, char *argv[]) {
@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
 
   try
   {
-    Chip8Facade c8(factory, rom_path);
+    Chip8 c8(factory, rom_path);
     c8.execute();
   }
   catch(const char *msg)

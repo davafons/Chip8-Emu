@@ -14,11 +14,11 @@ class Sound;
 
 // INLINE
 
-class Chip8Facade {
+class Chip8 {
 public:
-  explicit Chip8Facade(std::unique_ptr<AbstractFactory> &factory,
+  explicit Chip8(std::unique_ptr<AbstractFactory> &factory,
                        const std::string &rom_path = "");
-  ~Chip8Facade();
+  ~Chip8();
 
   void execute();
 
