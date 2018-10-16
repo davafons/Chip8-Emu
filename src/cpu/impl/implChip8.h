@@ -76,7 +76,7 @@ private:
   uint8_t DT_{0x00}; // Delay timer register
   uint8_t ST_{0x00}; // Sound timer register
 
-  bool draw_{true};  // true if the screen must be updated in this cycle
+  bool draw_{true};   // true if the screen must be updated in this cycle
   bool sound_{false}; // true if the program must emit a sound
 
   //// Function pointer table

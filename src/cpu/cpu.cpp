@@ -4,7 +4,7 @@
 #include "impl/implChip8.h"
 #include "memory/memory.h"
 
-Cpu::Cpu(Memory &memory) : impl_(std::make_unique<ImplChip8>(memory)){}
+Cpu::Cpu(Memory &memory) : impl_(std::make_unique<ImplChip8>(memory)) {}
 
 Cpu::~Cpu() = default;
 
@@ -20,9 +20,9 @@ void Cpu::cycle() {
 }
 
 void Cpu::reset() {
-  std::cout << "-- Resetting Cpu state..." << std::endl;
+  std::cout << "-- Resetting Cpu..." << std::endl;
   impl_->reset();
-  std::cout << "-- Cpu resetted." << std::endl;
+  std::cout << "-- Cpu reseted.\n" << std::endl;
 }
 
 bool Cpu::mustDraw() const { return impl_->mustDraw(); }

@@ -8,13 +8,10 @@ class SoundSDL : public Sound {
 public:
   SoundSDL();
   ~SoundSDL();
-  SoundSDL(const SoundSDL &) = delete;
-  SoundSDL &operator=(const SoundSDL &) = delete;
 
   void playPitch() const override;
 
 private:
-
   bool initialized_{false};
 
   SDL_AudioSpec wav_spec_;

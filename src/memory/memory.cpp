@@ -3,8 +3,6 @@
 
 #include "memory.h"
 
-Memory::Memory() { reset(); }
-
 void Memory::reset() {
   std::cout << "-- Resetting memory..." << std::endl;
   // Wipe memory
@@ -16,7 +14,7 @@ void Memory::reset() {
   std::copy(hex_sprites.cbegin(), hex_sprites.cend(), ram_.begin());
 
   loaded_ = false;
-  std::cout << "-- Memory resetted." << std::endl;
+  std::cout << "-- Memory reseted.\n" << std::endl;
 }
 
 void Memory::loadRom(const std::string &rom_path) {
@@ -26,6 +24,7 @@ void Memory::loadRom(const std::string &rom_path) {
     copyRomtoMemory(rom);
     rom.close();
     loaded_ = true;
+    rom_path_ = rom_path;
     std::cerr << "-- Rom loaded!" << std::endl;
 
   } catch (const std::exception &e) {

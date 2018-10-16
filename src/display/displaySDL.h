@@ -10,16 +10,14 @@ class DisplaySDL : public Display {
 public:
   explicit DisplaySDL(Memory &memory);
   ~DisplaySDL();
-  DisplaySDL(const DisplaySDL &) = delete;
-  DisplaySDL &operator=(const DisplaySDL &) = delete;
 
   void render() override;
 
 private:
   Memory &memory_;
 
-  SDL_Window *window_;
-  SDL_Renderer *renderer_;
+  SDL_Window *window_{nullptr};
+  SDL_Renderer *renderer_{nullptr};
 
   SDL_Color bg_;
   SDL_Color fg_;

@@ -8,20 +8,17 @@
 Cpu::ImplChip8::ImplChip8(Memory &memory) : mem_(memory) {}
 
 void Cpu::ImplChip8::reset() {
-  // Clear registers
   PC_ = 0x0200;
   I_ = 0x0000;
   SP_ = 0x00;
   DT_ = 0x00;
   ST_ = 0x00;
 
-  // Clear flags
+  std::fill(V_.begin(), V_.end(), 0);
+  std::fill(stack_.begin(), stack_.end(), 0);
+
   draw_ = true;
   sound_ = false;
-
-  // Reset memory
-  if (mem_.romLoaded())
-    mem_.reset();
 }
 
 void Cpu::ImplChip8::fetch() {
@@ -241,8 +238,8 @@ void Cpu::ImplChip8::DRW() {
     uint8_t pixel = mem_.readFromRam(I_ + yline);
     for (uint8_t xline = 0; xline < 8; ++xline) {
       if ((pixel & (0x80 >> xline)) != 0) {
-        int pos = x + xline + ((y + yline) * 64);
-        if (pos >= 2048 || pos < 0)
+        size_t pos = x + xline + ((y + yline) * 64);
+        if (pos >= 2048)
           continue;
         if (mem_.readFromDisplay((x + xline + ((y + yline) * 64))) == 1)
           V_[0xF] = 1;

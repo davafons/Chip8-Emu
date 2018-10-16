@@ -10,8 +10,6 @@ class Cpu {
 public:
   explicit Cpu(Memory &memory);
   ~Cpu();
-  Cpu(const Cpu &) = delete;
-  Cpu &operator=(const Cpu &) = delete;
 
   void cycle();
   void reset();

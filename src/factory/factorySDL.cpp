@@ -5,25 +5,26 @@
 #include "factorySDL.h"
 
 class Memory;
-class Chip8Facade;
+class Commander;
 
 FactorySDL::FactorySDL() {
+  std::cout << "-- Initializing SDL..." << std::endl;
   if (SDL_Init(0) < 0)
     throw SDL_GetError();
-  std::cout << "-- SDL loaded without erros!!" << std::endl;
+  std::cout << "-- SDL initialized!\n" << std::endl;
 }
 
 FactorySDL::~FactorySDL() {
-  std::cout << "-- Closing SDL..." << std::endl;
   SDL_Quit();
+  std::cout << "-- SDL Library completely closed!" << std::endl;
 }
 
 DisplaySDL *FactorySDL::createDisplay(Memory &memory) const {
   return new DisplaySDL(memory);
 }
 
-InputSDL *FactorySDL::createInput(Chip8Facade &facade, Memory &memory) const {
-  return new InputSDL(facade, memory);
+InputSDL *FactorySDL::createInput(Commander &commander) const {
+  return new InputSDL(commander);
 }
 
 SoundSDL *FactorySDL::createSound() const { return new SoundSDL; }

@@ -3,8 +3,8 @@
 #include "displaySDL.h"
 #include "memory/memory.h"
 
-DisplaySDL::DisplaySDL(Memory &memory)
-    : memory_(memory), window_(nullptr), renderer_(nullptr) {
+DisplaySDL::DisplaySDL(Memory &memory) : memory_(memory) {
+  std::cout << "- Loading DisplaySDL..." << std::endl;
 
   if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
     throw SDL_GetError();
@@ -34,6 +34,8 @@ DisplaySDL::DisplaySDL(Memory &memory)
   bg_.r = bg_.g = bg_.b = 0x00;
   bg_.a = 0xFF;
   fg_.r = fg_.g = fg_.b = fg_.a = 0xFF;
+
+  std::cout << "- DisplaySDL loaded." << std::endl;
 }
 
 DisplaySDL::~DisplaySDL() {
@@ -41,6 +43,7 @@ DisplaySDL::~DisplaySDL() {
   SDL_DestroyWindow(window_);
 
   SDL_QuitSubSystem(SDL_INIT_VIDEO);
+  std::cout << "- DisplaySDL closed." << std::endl;
 }
 
 void DisplaySDL::render() {
