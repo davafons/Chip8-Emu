@@ -14,8 +14,8 @@ void Cpu::ImplChip8::reset() {
   DT_ = 0x00;
   ST_ = 0x00;
 
-  std::fill(V_.begin(), V_.end(), 0);
-  std::fill(stack_.begin(), stack_.end(), 0);
+  std::fill(V_.begin(), V_.end(), 0x00);
+  std::fill(stack_.begin(), stack_.end(), 0x0000);
 
   draw_ = true;
   sound_ = false;
