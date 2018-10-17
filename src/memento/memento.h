@@ -3,7 +3,9 @@
 #include "memory/memory.h"
 
 class Memento {
-public:
+private:
+  friend class SaveStateManager;
+
   explicit Memento(const Memory &memory) : memory_(memory) {}
 
   void setMemory(const Memory &memory) { memory_ = memory; }

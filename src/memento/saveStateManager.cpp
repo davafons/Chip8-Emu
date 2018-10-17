@@ -7,12 +7,12 @@
 SaveStateManager::SaveStateManager(Memory &memory) : memory_(memory) {}
 
 void SaveStateManager::saveState(size_t i) {
-  save_states_.at(i) = Memento(memory_);
+  save_states_.push_back(Memento(memory_));
 }
 
 
 void SaveStateManager::loadState(size_t i) {
-  memory_ = save_states_.at(i).getMemory();
+  memory_ = save_states_.back().getMemory();
 }
 
 std::vector<Memento> SaveStateManager::save_states_;

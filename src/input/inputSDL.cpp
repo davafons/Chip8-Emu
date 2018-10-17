@@ -41,11 +41,17 @@ void InputSDL::pollEvents() {
       else if (e.key.keysym.sym == SDLK_t)
         commander_.togglePause();
 
-      else if (e.key.keysym.sym == SDLK_F1)
+      else if (e.key.keysym.sym == SDLK_F5)
         commander_.halfSpeed();
 
-      else if (e.key.keysym.sym == SDLK_F2)
+      else if (e.key.keysym.sym == SDLK_F6)
         commander_.doubleSpeed();
+
+      else if (e.key.keysym.sym == SDLK_F1)
+        commander_.saveState(0);
+
+      else if (e.key.keysym.sym == SDLK_F2)
+        commander_.loadState(0);
 
       for (size_t i = 0; i < keymap_.size(); ++i) {
         if (e.key.keysym.sym == keymap_[i])

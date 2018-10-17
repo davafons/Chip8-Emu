@@ -1,6 +1,9 @@
 #pragma once
 
+#include <cstddef>
 #include <string>
+
+#include "memento/saveStateManager.h"
 
 class Cpu;
 class Memory;
@@ -23,9 +26,15 @@ public:
   void doubleSpeed();
   void halfSpeed();
 
+  // Save States
+  void saveState(size_t i);
+  void loadState(size_t i);
+
 private:
   Cpu &cpu_;
   Memory &memory_;
 
   bool &quit_;
+
+  SaveStateManager ssmanager_{memory_};
 };
