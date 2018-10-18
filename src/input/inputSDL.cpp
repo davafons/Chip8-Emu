@@ -47,36 +47,39 @@ void InputSDL::pollEvents() {
           break;
 
         case SDLK_F1:
-          commander_.loadState(0);
-          break;
-
-        case SDLK_F2:
-          commander_.loadState(1);
-          break;
-
-        case SDLK_F3:
-          commander_.loadState(2);
-          break;
-
-        case SDLK_F4:
-          commander_.loadState(3);
-          break;
-
-        case SDLK_F5:
           commander_.saveState(0);
           break;
 
-        case SDLK_F6:
+        case SDLK_F2:
           commander_.saveState(1);
           break;
 
-        case SDLK_F7:
+        case SDLK_F3:
           commander_.saveState(2);
           break;
 
-        case SDLK_F8:
+        case SDLK_F4:
           commander_.saveState(3);
           break;
+
+        case SDLK_F5:
+          commander_.loadState(0);
+          break;
+
+        case SDLK_F6:
+          commander_.loadState(1);
+          break;
+
+        case SDLK_F7:
+          commander_.loadState(2);
+          break;
+
+        case SDLK_F8:
+          commander_.loadState(3);
+          break;
+
+        case SDLK_F11:
+          commander_.toggleFullScreen();
       }
 
       for (size_t i = 0; i < keymap_.size(); ++i) {

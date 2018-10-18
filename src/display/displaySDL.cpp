@@ -46,6 +46,15 @@ DisplaySDL::~DisplaySDL() {
   std::cout << "- DisplaySDL closed." << std::endl;
 }
 
+void DisplaySDL::toggleFullScreen() {
+  if(!isFullScreen_)
+    SDL_SetWindowFullscreen(window_, SDL_WINDOW_FULLSCREEN);
+  else
+    SDL_SetWindowFullscreen(window_, 0);
+
+  isFullScreen_ = !isFullScreen_;
+}
+
 void DisplaySDL::render() {
   SDL_SetRenderDrawColor(renderer_, 0xAA, 0xAA, 0xAA, 0xFF);
   SDL_RenderClear(renderer_);

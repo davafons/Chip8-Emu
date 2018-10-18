@@ -17,7 +17,7 @@ class Sound;
 class Chip8 {
 public:
   explicit Chip8(std::unique_ptr<AbstractFactory> &factory,
-                       const std::string &rom_path = "");
+                 const std::string &rom_path = "");
   ~Chip8();
 
   void execute();
@@ -34,5 +34,6 @@ private:
   std::unique_ptr<Input> input_;
   std::unique_ptr<Sound> sound_;
 
-  Commander commander_{cpu_, memory_, quit_};
+  friend class Commander;
+  Commander commander_{*this};
 };

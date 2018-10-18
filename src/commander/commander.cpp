@@ -1,35 +1,34 @@
 #include <iostream>
 
+#include "chip8.h"
 #include "commander.h"
+#include "display/display.h"
 
-#include "cpu/cpu.h"
-#include "memory/memory.h"
+Commander::Commander(Chip8 &chip8)
+    : chip8_(chip8), ssmanager_(chip8_.cpu_, chip8_.memory_) {}
 
-Commander::Commander(Cpu &cpu, Memory &memory, bool &quit)
-    : cpu_(cpu), memory_(memory), quit_(quit) {}
-
-void Commander::exit() { quit_ = true; }
+void Commander::exit() { chip8_.quit_ = true; }
 
 void Commander::reset() {
-  if (memory_.romLoaded()) {
-    cpu_.reset();
-    memory_.clearDisplay();
+  if (chip8_.memory_.romLoaded()) {
+    chip8_.cpu_.reset();
+    chip8_.memory_.clearDisplay();
   }
 }
 
 void Commander::loadRom(const std::string &rom_path) {
   std::cout << "\n\n |---- Loading Rom ----|" << std::endl;
-  cpu_.reset();
-  memory_.reset();
-  memory_.loadRom(rom_path);
+  chip8_.cpu_.reset();
+  chip8_.memory_.reset();
+  chip8_.memory_.loadRom(rom_path);
 }
 
-void Commander::keyDown(size_t i) { memory_.writeToKeys(i) = 1; }
-void Commander::keyUp(size_t i) { memory_.writeToKeys(i) = 0; }
+void Commander::keyDown(size_t i) { chip8_.memory_.writeToKeys(i) = 1; }
+void Commander::keyUp(size_t i) { chip8_.memory_.writeToKeys(i) = 0; }
 
-void Commander::togglePause() { cpu_.togglePause(); }
-void Commander::doubleSpeed() { cpu_.doubleSpeed(); }
-void Commander::halfSpeed() { cpu_.halfSpeed(); }
+void Commander::togglePause() { chip8_.cpu_.togglePause(); }
+void Commander::doubleSpeed() { chip8_.cpu_.doubleSpeed(); }
+void Commander::halfSpeed() { chip8_.cpu_.halfSpeed(); }
 
 void Commander::saveState(size_t i) {
   ssmanager_.saveState(i);
@@ -44,3 +43,5 @@ void Commander::loadState(size_t i) {
     std::cout << " -- State " << i << " is empty." << std::endl;
   }
 }
+
+void Commander::toggleFullScreen() { chip8_.display_->toggleFullScreen(); }

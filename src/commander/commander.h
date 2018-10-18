@@ -5,12 +5,11 @@
 
 #include "memento/saveStateManager.h"
 
-class Cpu;
-class Memory;
+class Chip8;
 
 class Commander {
 public:
-  Commander(Cpu &cpu, Memory &memory, bool &quit);
+  explicit Commander(Chip8 &chip8);
 
   // General
   void exit();
@@ -30,11 +29,11 @@ public:
   void saveState(size_t i);
   void loadState(size_t i);
 
+  // Display
+  void toggleFullScreen();
+
 private:
-  Cpu &cpu_;
-  Memory &memory_;
+  Chip8 &chip8_;
 
-  bool &quit_;
-
-  SaveStateManager ssmanager_{cpu_, memory_};
+  SaveStateManager ssmanager_;
 };

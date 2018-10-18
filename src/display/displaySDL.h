@@ -11,6 +11,8 @@ public:
   explicit DisplaySDL(Memory &memory);
   ~DisplaySDL();
 
+  void toggleFullScreen() override;
+
   void render() override;
 
 private:
@@ -21,4 +23,6 @@ private:
 
   SDL_Color bg_;
   SDL_Color fg_;
+
+  bool isFullScreen_{false};
 };
