@@ -5,7 +5,7 @@
 
 #define DEBUG(x) // std::cerr << x << std::endl
 
-Cpu::ImplChip8::ImplChip8(Memory &memory) : mem_(memory) {}
+Cpu::ImplChip8::ImplChip8(Memory &memory) : mem_(&memory) {}
 
 void Cpu::ImplChip8::reset() {
   PC_ = 0x0200;
@@ -22,7 +22,7 @@ void Cpu::ImplChip8::reset() {
 }
 
 void Cpu::ImplChip8::fetch() {
-  opcode_ = mem_.get().readFromRam(PC_) << 8 | mem_.get().readFromRam(PC_ + 1);
+  opcode_ = mem_->readFromRam(PC_) << 8 | mem_->readFromRam(PC_ + 1);
   PC_ += 2;
 }
 
@@ -83,7 +83,7 @@ void Cpu::ImplChip8::delay() {}
 // 00E0 - CLS - Clear the display.
 void Cpu::ImplChip8::CLS() {
   DEBUG("CLS");
-  mem_.get().clearDisplay();
+  mem_->clearDisplay();
   draw_ = true;
 }
 
@@ -235,15 +235,15 @@ void Cpu::ImplChip8::DRW() {
 
   V_[0xF] = 0;
   for (uint8_t yline = 0; yline < height; ++yline) {
-    uint8_t pixel = mem_.get().readFromRam(I_ + yline);
+    uint8_t pixel = mem_->readFromRam(I_ + yline);
     for (uint8_t xline = 0; xline < 8; ++xline) {
       if ((pixel & (0x80 >> xline)) != 0) {
         size_t pos = x + xline + ((y + yline) * 64);
         if (pos >= 2048)
           continue;
-        if (mem_.get().readFromDisplay((x + xline + ((y + yline) * 64))) == 1)
+        if (mem_->readFromDisplay((x + xline + ((y + yline) * 64))) == 1)
           V_[0xF] = 1;
-        mem_.get().writeToDisplay((x + xline + ((y + yline) * 64))) ^= 1;
+        mem_->writeToDisplay((x + xline + ((y + yline) * 64))) ^= 1;
       }
     }
   }
@@ -253,7 +253,7 @@ void Cpu::ImplChip8::DRW() {
 // Ex9E - SKP Vx - Skip next instruction if key with the value of Vx is pressed.
 void Cpu::ImplChip8::SKP() {
   DEBUG("SKP");
-  if (mem_.get().readFromKeys(V_[opcode_.x()]) != 0)
+  if (mem_->readFromKeys(V_[opcode_.x()]) != 0)
     PC_ += 2;
 }
 
@@ -261,7 +261,7 @@ void Cpu::ImplChip8::SKP() {
 // pressed.
 void Cpu::ImplChip8::SKNP() {
   DEBUG("SKNP");
-  if (mem_.get().readFromKeys(V_[opcode_.x()]) == 0)
+  if (mem_->readFromKeys(V_[opcode_.x()]) == 0)
     PC_ += 2;
 }
 
@@ -276,7 +276,7 @@ void Cpu::ImplChip8::LD_key() {
   DEBUG("LD_key");
   bool key_pressed = false;
   for (uint16_t i = 0; i < 16; ++i) {
-    if (mem_.get().readFromKeys(i) != 0) {
+    if (mem_->readFromKeys(i) != 0) {
       V_[opcode_.x()] = i;
       key_pressed = true;
       break;
@@ -315,9 +315,9 @@ void Cpu::ImplChip8::LD_sprite() {
 // and I+2.
 void Cpu::ImplChip8::LD_B_reg() {
   DEBUG("LD_B_reg");
-  mem_.get().writeToRam(I_) = V_[opcode_.x()] / 100;
-  mem_.get().writeToRam(I_ + 1) = (V_[opcode_.x()] / 10) % 10;
-  mem_.get().writeToRam(I_ + 2) = (V_[opcode_.x()] % 100) % 10;
+  mem_->writeToRam(I_) = V_[opcode_.x()] / 100;
+  mem_->writeToRam(I_ + 1) = (V_[opcode_.x()] / 10) % 10;
+  mem_->writeToRam(I_ + 2) = (V_[opcode_.x()] % 100) % 10;
 }
 
 // Fx55 - LD [I], Vx - Store registers V0 through Vx in memory starting at
@@ -325,7 +325,7 @@ void Cpu::ImplChip8::LD_B_reg() {
 void Cpu::ImplChip8::LD_ram_reg() {
   DEBUG("LD_ram_reg");
   for (uint16_t i = 0x0000; i <= opcode_.x(); ++i)
-    mem_.get().writeToRam(I_ + i) = V_[i];
+    mem_->writeToRam(I_ + i) = V_[i];
 }
 
 // Fx65 - LD Vx, [I] - Read registers V0 through Vx from memory starting at
@@ -333,7 +333,7 @@ void Cpu::ImplChip8::LD_ram_reg() {
 void Cpu::ImplChip8::LD_reg_ram() {
   DEBUG("LD_reg_ram");
   for (uint16_t i = 0x0000; i <= opcode_.x(); ++i)
-    V_[i] = mem_.get().readFromRam(I_ + i);
+    V_[i] = mem_->readFromRam(I_ + i);
 }
 
 ///////// Function pointer table /////////

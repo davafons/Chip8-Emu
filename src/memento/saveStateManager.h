@@ -3,12 +3,13 @@
 #include <cstddef>
 #include <vector>
 
+class Cpu;
 class Memory;
 class Memento;
 
 class SaveStateManager {
 public:
-  explicit SaveStateManager(Memory &memory);
+  explicit SaveStateManager(Cpu &active_cpu, Memory &active_memory);
 
   void saveState(size_t i);
   void loadState(size_t i);
@@ -16,5 +17,6 @@ public:
 private:
   static std::vector<Memento> save_states_;
 
-  Memory &memory_;
+  Cpu &active_cpu_;
+  Memory &active_memory_;
 };

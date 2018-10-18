@@ -61,7 +61,7 @@ private:
   void LD_reg_ram(); // Fx65 - LD Vx, [I]
 
 private:
-  std::reference_wrapper<Memory> mem_;
+  Memory *mem_;
 
   Opcode opcode_;
 

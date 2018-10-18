@@ -36,5 +36,5 @@ private:
 
   bool &quit_;
 
-  SaveStateManager ssmanager_{memory_};
+  SaveStateManager ssmanager_{cpu_, memory_};
 };
