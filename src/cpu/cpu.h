@@ -10,6 +10,9 @@ class Cpu {
 public:
   explicit Cpu(Memory &memory);
   ~Cpu();
+  Cpu(const Cpu &rhs);
+  Cpu &operator=(Cpu rhs);
+  friend void swap(Cpu &first, Cpu& second) noexcept;
 
   void cycle();
   void reset();

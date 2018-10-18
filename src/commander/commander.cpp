@@ -38,5 +38,5 @@ void Commander::saveState(size_t i) {
 
 void Commander::loadState(size_t i) {
   ssmanager_.loadState(i);
-  std::cout << "-- State loaded in " << i << std::endl;
+  std::cout << "-- State loaded from " << i << std::endl;
 }
