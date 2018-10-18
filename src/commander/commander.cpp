@@ -33,10 +33,14 @@ void Commander::halfSpeed() { cpu_.halfSpeed(); }
 
 void Commander::saveState(size_t i) {
   ssmanager_.saveState(i);
-  std::cout << "-- State saved in " << i << std::endl;
+  std::cout << "-- State " << i << " saved!" << std::endl;
 }
 
 void Commander::loadState(size_t i) {
-  ssmanager_.loadState(i);
-  std::cout << "-- State loaded from " << i << std::endl;
+  try {
+    ssmanager_.loadState(i);
+    std::cout << "-- State " << i << " loaded!" << std::endl;
+  } catch (std::out_of_range &e) {
+    std::cout << " -- State " << i << " is empty." << std::endl;
+  }
 }

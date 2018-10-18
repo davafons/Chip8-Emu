@@ -32,26 +32,52 @@ void InputSDL::pollEvents() {
       break;
 
     case SDL_KEYDOWN:
-      if (e.key.keysym.sym == SDLK_ESCAPE)
-        commander_.exit();
+      switch(e.key.keysym.sym)
+      {
+        case SDLK_ESCAPE:
+          commander_.exit();
+          break;
 
-      else if (e.key.keysym.sym == SDLK_g)
-        commander_.reset();
+        case SDLK_g:
+          commander_.reset();
+          break;
 
-      else if (e.key.keysym.sym == SDLK_t)
-        commander_.togglePause();
+        case SDLK_t:
+          commander_.togglePause();
+          break;
 
-      else if (e.key.keysym.sym == SDLK_F5)
-        commander_.halfSpeed();
+        case SDLK_F1:
+          commander_.loadState(0);
+          break;
 
-      else if (e.key.keysym.sym == SDLK_F6)
-        commander_.doubleSpeed();
+        case SDLK_F2:
+          commander_.loadState(1);
+          break;
 
-      else if (e.key.keysym.sym == SDLK_F1)
-        commander_.saveState(0);
+        case SDLK_F3:
+          commander_.loadState(2);
+          break;
 
-      else if (e.key.keysym.sym == SDLK_F2)
-        commander_.loadState(0);
+        case SDLK_F4:
+          commander_.loadState(3);
+          break;
+
+        case SDLK_F5:
+          commander_.saveState(0);
+          break;
+
+        case SDLK_F6:
+          commander_.saveState(1);
+          break;
+
+        case SDLK_F7:
+          commander_.saveState(2);
+          break;
+
+        case SDLK_F8:
+          commander_.saveState(3);
+          break;
+      }
 
       for (size_t i = 0; i < keymap_.size(); ++i) {
         if (e.key.keysym.sym == keymap_[i])

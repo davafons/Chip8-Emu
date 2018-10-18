@@ -1,7 +1,8 @@
 #pragma once
 
 #include <cstddef>
-#include <vector>
+#include <memory>
+#include <unordered_map>
 
 class Cpu;
 class Memory;
@@ -15,7 +16,7 @@ public:
   void loadState(size_t i);
 
 private:
-  static std::vector<Memento> save_states_;
+  static std::unordered_map<size_t, Memento> save_states_;
 
   Cpu &active_cpu_;
   Memory &active_memory_;
