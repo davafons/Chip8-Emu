@@ -12,6 +12,7 @@ public:
   ~DisplaySDL();
 
   void toggleFullScreen() override;
+  void saveScreenshot() const override;
 
   void render() override;
 
@@ -23,6 +24,9 @@ private:
 
   SDL_Color bg_;
   SDL_Color fg_;
+
+  const int width_{512};
+  const int height_{256};
 
   bool isFullScreen_{false};
 };

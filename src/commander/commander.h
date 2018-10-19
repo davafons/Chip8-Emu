@@ -31,6 +31,7 @@ public:
 
   // Display
   void toggleFullScreen();
+  void saveScreenshot() const;
 
 private:
   Chip8 &chip8_;
