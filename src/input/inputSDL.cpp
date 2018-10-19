@@ -80,6 +80,11 @@ void InputSDL::pollEvents() {
 
         case SDLK_F11:
           commander_.toggleFullScreen();
+          break;
+
+        case SDLK_F12:
+          commander_.saveScreenshot();
+          break;
       }
 
       for (size_t i = 0; i < keymap_.size(); ++i) {

@@ -45,3 +45,8 @@ void Commander::loadState(size_t i) {
 }
 
 void Commander::toggleFullScreen() { chip8_.display_->toggleFullScreen(); }
+
+void Commander::saveScreenshot() const {
+  chip8_.display_->saveScreenshot();
+  std::cout << "-- Screenshot saved!" << std::endl;
+}

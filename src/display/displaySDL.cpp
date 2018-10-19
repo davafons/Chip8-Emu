@@ -11,7 +11,7 @@ DisplaySDL::DisplaySDL(Memory &memory) : memory_(memory) {
 
   window_ =
       SDL_CreateWindow("Chip-8 emulator", SDL_WINDOWPOS_CENTERED,
-                       SDL_WINDOWPOS_CENTERED, 512, 256, SDL_WINDOW_SHOWN);
+                       SDL_WINDOWPOS_CENTERED, width_, height_, SDL_WINDOW_SHOWN);
 
   if (!window_)
     throw SDL_GetError();
@@ -53,6 +53,17 @@ void DisplaySDL::toggleFullScreen() {
     SDL_SetWindowFullscreen(window_, 0);
 
   isFullScreen_ = !isFullScreen_;
+}
+
+void DisplaySDL::saveScreenshot() const {
+  const uint32_t format = SDL_PIXELFORMAT_ARGB8888;
+
+  SDL_Surface *surface = SDL_CreateRGBSurfaceWithFormat(0, width_, height_, 32,
+      format);
+  SDL_RenderReadPixels(renderer_, NULL, format, surface->pixels,
+      surface->pitch);
+  SDL_SaveBMP(surface, "screenshot.bmp");
+  SDL_FreeSurface(surface);
 }
 
 void DisplaySDL::render() {

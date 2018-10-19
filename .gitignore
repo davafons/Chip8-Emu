@@ -14,3 +14,6 @@ lib/
 *.swp
 tags
 .clang_complete
+
+# Screenshots
+*.bmp
