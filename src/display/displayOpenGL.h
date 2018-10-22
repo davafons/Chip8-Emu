@@ -1,7 +1,7 @@
 #pragma once
 
 #include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include <SDL2/SDL.h>
 
 #include "display/display.h"
 
@@ -22,7 +22,8 @@ public:
 private:
   Memory &memory_;
 
-  GLFWwindow *window_;
+  SDL_Window *window_;
+  SDL_GLContext context_;
 
   const int width_{512};
   const int height_{512};

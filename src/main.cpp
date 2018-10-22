@@ -4,6 +4,7 @@
 
 #include "chip8.h"
 #include "factory/factorySDL.h"
+#include "factory/factoryOpenGL.h"
 
 int main(int argc, char *argv[]) {
   std::string rom_path = "";
@@ -13,16 +14,17 @@ int main(int argc, char *argv[]) {
 
   // Factories will be expanded when adding more graphic libraries
   std::unique_ptr<AbstractFactory> factory;
-  factory = std::make_unique<FactorySDL>();
 
   try
   {
+    factory = std::make_unique<FactoryOpenGL>();
+
     Chip8 c8(factory, rom_path);
     c8.execute();
   }
   catch(const char *msg)
   {
-    std::cout << "SDL_Error: " << msg << std::endl;
+    std::cout << "ERROR: " << msg << std::endl;
   }
 
   return 0;
