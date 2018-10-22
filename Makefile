@@ -40,7 +40,7 @@ CFLAGS := -Wall $(INCLUDE)
 CXXFLAGS := -Wall -std=c++14 $(INCLUDE)
 
 LDFLAGS := $(LIB)
-LDLIBS = -lSDL2
+LDLIBS = -lSDL2 -lglfw3 -gdi32 -lX11 -lXxf86vm -lXcursor -lXrandr -lXinerama -ldl -lpthread
 
 
 ############### RULES #################
