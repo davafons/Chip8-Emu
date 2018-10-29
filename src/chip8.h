@@ -23,9 +23,6 @@ public:
   void execute();
 
 private:
-  void loadRom(const std::string &rom_path) { commander_.loadRom(rom_path); }
-
-private:
   bool quit_{false};
 
   Memory memory_;

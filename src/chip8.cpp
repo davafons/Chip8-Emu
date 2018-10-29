@@ -13,7 +13,7 @@ Chip8::Chip8(std::unique_ptr<AbstractFactory> &factory,
 
   std::cout << "\n\n |---- CHIP8 Emulator ----|" << std::endl;
   if (!rom_path.empty())
-    loadRom(rom_path);
+    commander_.loadRom(rom_path);
   else {
     std::cout << "Please drop a .rom or .ch8 file to start emulation..."
               << std::endl;
