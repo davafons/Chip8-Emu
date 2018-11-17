@@ -19,9 +19,12 @@ DisplayOpenGL::DisplayOpenGL(Memory &memory) : memory_(memory)
   context_ = SDL_GL_CreateContext(window_);
   SDL_GL_MakeCurrent(window_, context_);
 
+  if(!gladLoadGLLoader(SDL_GL_GetProcAddress))
+    throw SDL_GetError();
+
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
   SDL_GL_SetSwapInterval(1);
@@ -50,5 +53,8 @@ void DisplayOpenGL::saveScreenshot() const
 
 void DisplayOpenGL::render()
 {
+  glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+  glClear(GL_COLOR_BUFFER_BIT);
+  SDL_GL_SwapWindow(window_);
 
 }

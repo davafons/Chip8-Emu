@@ -12,10 +12,6 @@ FactoryOpenGL::FactoryOpenGL() {
   std::cout << "-- Initializing OpenGL (SDL/glad)..." << std::endl;
   if (SDL_Init(0) < 0)
     throw SDL_GetError();
-
-  if(!gladLoadGLLoader(SDL_GL_GetProcAddress));
-    throw "Failed to initialize GLAD";
-
   std::cout << "-- OpenGL initialized!\n" << std::endl;
 }
 
