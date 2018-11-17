@@ -25,8 +25,12 @@ private:
   SDL_Window *window_;
   SDL_GLContext context_;
 
+  // OpenGL
+  int shader_program_;
+  unsigned int quadVAO_, quadVBO_;
+
   const int width_{512};
-  const int height_{512};
+  const int height_{256};
 
   bool isFullScreen_{false};
 };

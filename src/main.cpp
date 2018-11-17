@@ -26,6 +26,10 @@ int main(int argc, char *argv[]) {
   {
     std::cout << "ERROR: " << msg << std::endl;
   }
+  catch(const std::string & msg)
+  {
+    std::cout << "ERROR: " << msg << std::endl;
+  }
 
   return 0;
 }
