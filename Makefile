@@ -4,13 +4,19 @@ CXX = g++
 
 # Commands
 MKDIR = mkdir
-RM = rm
+RM = rm -f
+FIND_DIR = $(shell find $(1) -type d)
+FIND_FILES = $(shell find $(1) -type f -name $(2))
 
-SLASH = /
+SLH = /
+EXE = out
 # Correct slash for commands depending of OS
 ifeq ($(OS),Windows_NT)
 	RM = del
-	SLASH = \\
+	SLH = \\
+	EXE = exe
+	FIND_DIR = $(shell dir /s /b /a:d $(1))
+	FIND_FILES = $(shell dir /s /b /a-d $(1)$(2))
 endif
 
 
@@ -19,14 +25,14 @@ SRCDIR = src
 OBJDIR = obj
 BINDIR = bin
 
-VPATH = $(SRCDIR)/ $(shell find $(SRCDIR)/* -type d)
+VPATH = $(SRCDIR)/ $(call FIND_DIR, $(SRCDIR)$(SLH)*)
 
 # Target name
-TARGET := $(BINDIR)/chip8.out
+TARGET := $(BINDIR)/chip8.$(EXE)
 
 # Source and object files
-c_files := $(shell find $(SRCDIR)/ -type f -name '*.c')
-cxx_files := $(shell find $(SRCDIR)/ -type f -name '*.cpp')
+c_files := $(call FIND_FILES, $(SRCDIR)$(SLH), *.c)
+cxx_files := $(call FIND_FILES, $(SRCDIR)$(SLH), *.cpp)
 src := $(c_files) $(cxx_files)
 obj := $(addprefix $(OBJDIR)/, $(notdir $(addsuffix .o, $(basename $(src)))))
 
@@ -67,7 +73,7 @@ $(OBJDIR)/%.o : %.cpp
 # Clean executable and objects
 .PHONY : clean
 clean :
-	 $(RM) $(subst /,$(SLASH), $(TARGET)) $(subst /,$(SLASH), $(obj))
+	 $(RM) $(subst /,$(SLH), $(TARGET)) $(subst /,$(SLH), $(obj))
 
 # Create directories if necessary
 .PHONY : directories
